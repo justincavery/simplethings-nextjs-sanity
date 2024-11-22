@@ -162,4 +162,4 @@ When developing your app, you'll run the files locally. Pushing your changes to 
 
 [sanity-homepage]: https://www.sanity.io?utm_source=github.com&utm_medium=referral&utm_campaign=nextjs-v3vercelstarter
 [presentation]: https://www.sanity.io/docs/presentation
-[vercel-deploy]: https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsanity-io%2Fsanity-template-nextjs-clean&project-name=nextjs-sanity-app&repository-name=nextjs-sanity-app&demo-title=Next.js%20%2B%20Sanity%20Starter&demo-description=A%20starter%20template%20for%20using%20Next.js%20with%20Sanity&demo-url=template-nextjs-clean.sanity.build&integration-ids=oac_hb2LITYajhRQ0i4QznmKH7gx&root-directory=nextjs-app
+[vercel-deploy]: https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fjustincavery%2Fsimplethings-nextjs-sanity&project-name=nextjs-sanity-app&repository-name=simplethings-nextjs-sanity&demo-title=Next.js%20%2B%20Sanity%20Starter&demo-description=A%20starter%20template%20for%20using%20Next.js%20with%20Sanity&demo-url=template-nextjs-clean.sanity.build&integration-ids=oac_hb2LITYajhRQ0i4QznmKH7gx&root-directory=nextjs-app
