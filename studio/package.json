@@ -17,6 +17,8 @@
   ],
   "dependencies": {
     "@sanity/assist": "^3.0.8",
+    "@sanity/cli": "^3.65.0",
+    "@sanity/code-input": "^4.1.4",
     "@sanity/icons": "^3.4.0",
     "@sanity/vision": "^3.63.0",
     "date-fns": "^3.6.0",

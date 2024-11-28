@@ -92,5 +92,40 @@ export default defineType({
         ],
       },
     }),
+    defineArrayMember({
+      type: 'image',
+      options: {hotspot: true},
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative text',
+        }),
+        defineField({
+          name: 'caption',
+          type: 'string',
+          title: 'Caption',
+        }),
+      ],
+    }),
+    defineArrayMember({
+      type: 'code',
+      name: 'code',
+      title: 'Code Blocks',
+      options: {
+        languageAlternatives: [
+          {title: 'JavaScript', value: 'javascript'},
+          {title: 'Python', value: 'python'},
+          {title: 'HTML', value: 'html'},
+          {title: 'CSS', value: 'css'},
+          {title: 'JSON', value: 'json'},
+          {title: 'Markdown', value: 'markdown'},
+          {title: 'TypeScript', value: 'typescript'},
+          {title: 'Shell', value: 'shell'},
+          {title: 'YAML', value: 'yaml'},
+        ],
+        withFilename: true,
+      },
+  }),
   ],
 })

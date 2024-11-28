@@ -16,6 +16,7 @@ import {
   type DocumentLocation,
 } from 'sanity/presentation'
 import {assist} from '@sanity/assist'
+import { codeInput } from '@sanity/code-input'
 
 // Environment variables for project configuration
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'your-projectID'
@@ -47,12 +48,13 @@ function resolveHref(documentType?: string, slug?: string): string | undefined {
 // Main Sanity configuration
 export default defineConfig({
   name: 'default',
-  title: 'Clean Next.js + Sanity',
+  title: 'Simple Things Limited',
 
   projectId,
   dataset,
 
   plugins: [
+    codeInput(),
     // Presentation tool configuration for Visual Editing
     presentationTool({
       previewUrl: {
