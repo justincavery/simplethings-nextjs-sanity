@@ -31,7 +31,7 @@ export default async function Page() {
               </p>
             </div>
             <div className="flex items-center flex-col gap-4">
-              <GetStartedCode code="npm create sanity@latest" />
+              <GetStartedCode code="Available from February 1st, 2025" />
             </div>
           </div>
         </div>

@@ -15,7 +15,7 @@ export default function GetStartedCode({ code }: { code: string }) {
     <div className="inline-flex border rounded-full bg-gray-50/20 bg-white border-gray-200 px-6 py-2 md:px-8 md:py-4 text-gray-700 text-sm md:text-base mt-6 font-mono gap-4 items-center">
       <span>{code}</span>
       <button className="text-red-500 relative" onClick={handleCopy}>
-        <svg
+        {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
@@ -29,7 +29,7 @@ export default function GetStartedCode({ code }: { code: string }) {
           }`}
         >
           Copied!
-        </span>
+        </span> */}
       </button>
     </div>
   );

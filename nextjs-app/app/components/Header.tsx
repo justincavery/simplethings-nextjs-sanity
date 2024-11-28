@@ -6,7 +6,7 @@ export default function Header() {
       <div className="container py-6 sm:px-6">
         <div className="flex items-center justify-between gap-5">
           <Link className="flex items-center gap-2" href="/">
-            <svg
+            {/* <svg
               viewBox="0 0 128 128"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -54,9 +54,14 @@ export default function Header() {
                   fill="currentColor"
                 ></path>
               </g>
-            </svg>
-            <span className="hidden lg:block text-lg pl-2 font-semibold">
-              Simple Things
+            </svg> */}
+            <span className="hidden lg:block text-lg pl-2 font-semibold tracking-tighter">
+            <span className="text-red-500 ">
+                  Simple
+                </span>
+                <span className="text-[#000] " >
+                  Things
+                </span>
             </span>
           </Link>
 
@@ -65,11 +70,6 @@ export default function Header() {
               role="list"
               className="flex items-center gap-4 md:gap-6 leading-5 text-sm md:text-base tracking-tight font-normal"
             >
-              <li>
-                <Link href="/about" className="">
-                  About
-                </Link>
-              </li>
               <li>
                 <Link href="/services" className="">
                   Services
