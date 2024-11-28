@@ -27,7 +27,7 @@ export default async function Page() {
             </div>
             <div className="mt-6 space-y-6 prose sm:prose-lg md:prose-xl lg:prose-2xl text-gray-700">
               <p>
-              At Simple Things Limited, we specialise in transforming businesses with cutting-edge consultancy services. Whether you're scaling your infrastructure, building blockchain solutions, or unlocking the potential of artificial intelligence, our expert team is here to guide you.
+              At Simple Things Limited, we specialise in transforming businesses with cutting-edge consultancy services. Whether you&quot;re scaling your infrastructure, building blockchain solutions, or unlocking the potential of artificial intelligence, our expert team is here to guide you.
               </p>
             </div>
             <div className="flex items-center flex-col gap-4">
