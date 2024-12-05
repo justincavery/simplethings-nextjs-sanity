@@ -75,7 +75,7 @@ export const MorePosts = async ({ skip, limit }: MorePostsProps) => {
   }
 
   return (
-    <Posts heading={`Recent blog posts from Sanity (${data?.length})`}>
+    <Posts heading={`Recent blog posts from SimpleThings (${data?.length})`}>
       {data?.map((post: any) => <Post key={post._id} post={post} />)}
     </Posts>
   );
