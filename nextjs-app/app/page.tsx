@@ -31,7 +31,7 @@ export default async function Page() {
               </p>
             </div>
             <div className="flex items-center flex-col gap-4">
-              <GetStartedCode code="Available from February 1st, 2025" />
+              <GetStartedCode code="Available from August 27th, 2025" />
             </div>
           </div>
         </div>

@@ -66,6 +66,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${inter.variable} bg-white text-black`}>
+      <meta name="apple-mobile-web-app-title" content="Simple Things" />
       <body>
         <section className="min-h-screen pt-24">
           {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
