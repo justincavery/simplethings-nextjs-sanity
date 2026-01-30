@@ -58,7 +58,7 @@ export default defineType({
     defineField({
       name: 'heroHeading',
       title: 'Hero Heading',
-      description: 'The main heading text displayed at the top of the homepage (e.g., "EMPOWERING YOUR BUSINESS THROUGH TECHNOLOGY").',
+      description: 'The main heading text displayed at the top of the homepage (e.g., "Empowering Your Business Through Technology").',
       type: 'string',
       initialValue: 'Empowering Your Business Through Technology',
     }),
@@ -113,9 +113,9 @@ export default defineType({
     defineField({
       name: 'heroAvailability',
       title: 'Hero Availability Text',
-      description: 'The availability or call-to-action text displayed below the hero description (e.g., "Available from August 27th, 2025").',
+      description: 'The availability or call-to-action text displayed below the hero description (e.g., "Get in touch to discuss your project").',
       type: 'string',
-      initialValue: 'Available from August 27th, 2025',
+      initialValue: 'Get in touch to discuss your project',
     }),
     defineField({
       name: 'ogImage',

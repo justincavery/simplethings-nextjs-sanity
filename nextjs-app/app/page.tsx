@@ -9,6 +9,7 @@ import { settingsQuery } from "@/sanity/lib/queries";
 
 export default async function Page() {
   const { data: settings } = await sanityFetch({ query: settingsQuery });
+  const heroDescription = settings?.heroDescription as PortableTextBlock[] | null | undefined;
 
   return (
     <>
@@ -31,8 +32,8 @@ export default async function Page() {
               </h1>
             </div>
             <div className="mt-6 space-y-6 prose sm:prose-lg md:prose-xl lg:prose-2xl text-gray-700">
-              {settings?.heroDescription && settings.heroDescription.length > 0 ? (
-                <PortableText value={settings.heroDescription as PortableTextBlock[]} />
+              {heroDescription && heroDescription.length > 0 ? (
+                <PortableText value={heroDescription} />
               ) : (
                 <p>
                   At Simple Things Limited, we specialise in transforming businesses with cutting-edge consultancy services. Whether you&quot;re scaling your infrastructure, building blockchain solutions, or unlocking the potential of artificial intelligence, our expert team is here to guide you.
@@ -40,7 +41,7 @@ export default async function Page() {
               )}
             </div>
             <div className="flex items-center flex-col gap-4">
-              <GetStartedCode code={settings?.heroAvailability || "Available from August 27th, 2025"} />
+              <GetStartedCode code={settings?.heroAvailability || "Get in touch to discuss your project"} />
             </div>
           </div>
         </div>
