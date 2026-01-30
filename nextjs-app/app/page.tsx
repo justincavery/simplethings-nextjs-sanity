@@ -34,11 +34,11 @@ export default async function Page() {
                 </span>
               </h1>
             </div>
-            <div className="mt-6 space-y-6 prose sm:prose-lg md:prose-xl lg:prose-2xl text-gray-700">
+            <div className="mt-6 space-y-6 text-gray-700">
               {heroDescription && heroDescription.length > 0 ? (
-                <PortableText value={heroDescription} />
+                <PortableText className="sm:prose-lg md:prose-xl lg:prose-2xl" value={heroDescription} />
               ) : (
-                <p>
+                <p className="prose sm:prose-lg md:prose-xl lg:prose-2xl">
                   At Simple Things Limited, we specialise in transforming businesses with cutting-edge consultancy services. Whether you&quot;re scaling your infrastructure, building blockchain solutions, or unlocking the potential of artificial intelligence, our expert team is here to guide you.
                 </p>
               )}
