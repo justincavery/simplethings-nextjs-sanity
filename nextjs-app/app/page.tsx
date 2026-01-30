@@ -7,6 +7,9 @@ import PortableText from "@/app/components/PortableText";
 import { sanityFetch } from "@/sanity/lib/live";
 import { settingsQuery } from "@/sanity/lib/queries";
 
+// Revalidate this page every 60 seconds to ensure new posts appear
+export const revalidate = 60;
+
 export default async function Page() {
   const { data: settings } = await sanityFetch({ query: settingsQuery });
   const heroDescription = settings?.heroDescription as PortableTextBlock[] | null | undefined;
