@@ -156,6 +156,14 @@ When developing your app, you'll run the files locally. Pushing your changes to 
 
 ## 📚 Additional Resources
 
+### Project Documentation
+- 📘 [Studio Deployment Guide](STUDIO_DEPLOYMENT_GUIDE.md) - How to deploy schema changes
+- 🚀 [Studio Quick Reference](STUDIO_QUICK_REF.md) - Quick deployment commands
+- 🏠 [Homepage Posts Fix](HOMEPAGE_POSTS_FIX.md) - Troubleshooting post visibility
+- 🔒 [Security Updates](SECURITY.md) - Security vulnerability information
+- 📝 [Implementation Notes](IMPLEMENTATION_NOTES.md) - Recent changes and features
+
+### External Resources
 - 🎓 [Sanity Learn: Work-ready Next.js](https://www.sanity.io/learn/track/work-ready-next-js)
 - 📖 [Sanity Documentation](https://www.sanity.io/docs)
 - 💬 [Join the Sanity Community](https://slack.sanity.io)
