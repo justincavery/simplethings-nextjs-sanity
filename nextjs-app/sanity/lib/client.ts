@@ -6,7 +6,7 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true,
+  useCdn: false, // Disable CDN to ensure fresh content for published posts
   perspective: "published",
   stega: {
     studioUrl,
