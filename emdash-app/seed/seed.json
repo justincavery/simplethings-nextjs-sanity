@@ -1,0 +1,2325 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"meta": {
+		"name": "Simple Things",
+		"description": "Migrated Sanity content and schema for the Simple Things agency site.",
+		"author": "Justin Avery"
+	},
+	"settings": {
+		"title": "Simple Things Limited",
+		"tagline": "UK based technology company transforming businesses with cutting-edge consultancy services.",
+		"description": "At Simple Things Limited, we specialise in transforming businesses with cutting-edge consultancy services. Whether you're scaling your infrastructure, building blockchain solutions, or unlocking the potential of artificial intelligence, our expert team is here to guide you.",
+		"siteUrl": "https://simplethin.gs"
+	},
+	"collections": [
+		{
+			"slug": "posts",
+			"label": "Posts",
+			"labelSingular": "Post",
+			"supports": [
+				"drafts",
+				"revisions",
+				"search",
+				"seo"
+			],
+			"commentsEnabled": true,
+			"urlPattern": "/posts/{slug}",
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "Excerpt",
+					"type": "text",
+					"validation": {
+						"helpText": "Used as the default social/SEO description when no custom SEO description is set. Social preview images clip this on display, so keep the important words near the start."
+					},
+					"searchable": true
+				},
+				{
+					"slug": "date",
+					"label": "Original publish date",
+					"type": "datetime"
+				},
+				{
+					"slug": "featured_image",
+					"label": "Featured Image",
+					"type": "image"
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "tweet_url",
+					"label": "Referenced tweet URL",
+					"type": "url"
+				},
+				{
+					"slug": "links",
+					"label": "Linkbacks",
+					"type": "json"
+				},
+				{
+					"slug": "social_draft",
+					"label": "Social post draft",
+					"type": "text"
+				}
+			]
+		},
+		{
+			"slug": "projects",
+			"label": "Projects",
+			"labelSingular": "Project",
+			"supports": [
+				"drafts",
+				"revisions",
+				"search",
+				"seo"
+			],
+			"urlPattern": "/projects/{slug}",
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "summary",
+					"label": "Summary",
+					"type": "text",
+					"validation": {
+						"helpText": "Used as the default social/SEO description when no custom SEO description is set. Social preview images clip this on display, so keep the important words near the start."
+					},
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "Featured Image",
+					"type": "image"
+				},
+				{
+					"slug": "client",
+					"label": "Client",
+					"type": "string"
+				},
+				{
+					"slug": "year",
+					"label": "Year",
+					"type": "string"
+				},
+				{
+					"slug": "project_status",
+					"label": "Status",
+					"type": "string"
+				},
+				{
+					"slug": "stack",
+					"label": "Capabilities",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{
+								"slug": "category",
+								"label": "Category",
+								"type": "string",
+								"required": true
+							},
+							{
+								"slug": "capabilities",
+								"label": "Capabilities (comma separated)",
+								"type": "text",
+								"required": true
+							}
+						],
+						"minItems": 1
+					}
+				},
+				{
+					"slug": "business_benefits",
+					"label": "Business benefits",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{
+								"slug": "benefit",
+								"label": "Benefit",
+								"type": "string",
+								"required": true
+							}
+						],
+						"minItems": 1,
+						"maxItems": 4
+					}
+				},
+				{
+					"slug": "technical_highlights",
+					"label": "Technical highlights",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{
+								"slug": "highlight",
+								"label": "Highlight",
+								"type": "string",
+								"required": true
+							}
+						],
+						"minItems": 1,
+						"maxItems": 4
+					}
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "gallery",
+					"label": "Gallery",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{
+								"slug": "title",
+								"label": "Image title",
+								"type": "string"
+							},
+							{
+								"slug": "image_url",
+								"label": "Image URL",
+								"type": "url"
+							},
+							{
+								"slug": "caption",
+								"label": "Caption",
+								"type": "text"
+							}
+						]
+					}
+				},
+				{
+					"slug": "url",
+					"label": "Project URL",
+					"type": "url"
+				},
+				{
+					"slug": "repo_url",
+					"label": "Repository URL",
+					"type": "url"
+				}
+			]
+		},
+		{
+			"slug": "pages",
+			"label": "Pages",
+			"labelSingular": "Page",
+			"supports": [
+				"drafts",
+				"revisions",
+				"search",
+				"seo"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "sections",
+					"label": "Homepage sections",
+					"type": "repeater",
+					"validation": {
+						"helpText": "Use this on the Home page. Add rows in display order. For item lists, add one line per item in the format: Title | Description | URL. Code snippets and demos belong inside the Content editor on posts and projects.",
+						"subFields": [
+							{
+								"slug": "type",
+								"label": "Section type",
+								"type": "select",
+								"required": true,
+								"options": [
+									"hero",
+									"steps",
+									"services",
+									"projects",
+									"posts",
+									"rich_text",
+									"cta"
+								]
+							},
+							{
+								"slug": "eyebrow",
+								"label": "Eyebrow",
+								"type": "string"
+							},
+							{
+								"slug": "title",
+								"label": "Title",
+								"type": "string"
+							},
+							{
+								"slug": "summary",
+								"label": "Summary",
+								"type": "text"
+							},
+							{
+								"slug": "body",
+								"label": "Body",
+								"type": "text"
+							},
+							{
+								"slug": "primary_label",
+								"label": "Primary link label",
+								"type": "string"
+							},
+							{
+								"slug": "primary_url",
+								"label": "Primary link URL",
+								"type": "url"
+							},
+							{
+								"slug": "secondary_label",
+								"label": "Secondary link label",
+								"type": "string"
+							},
+							{
+								"slug": "secondary_url",
+								"label": "Secondary link URL",
+								"type": "url"
+							},
+							{
+								"slug": "items",
+								"label": "Items",
+								"type": "text"
+							},
+							{
+								"slug": "source",
+								"label": "Content source",
+								"type": "select",
+								"options": [
+									"manual",
+									"projects",
+									"posts"
+								]
+							},
+							{
+								"slug": "limit",
+								"label": "Item limit",
+								"type": "integer"
+							},
+							{
+								"slug": "variant",
+								"label": "Visual variant",
+								"type": "select",
+								"options": [
+									"default",
+									"field",
+									"compact"
+								]
+							}
+						]
+					}
+				}
+			]
+		}
+	],
+	"taxonomies": [
+		{
+			"name": "tag",
+			"label": "Tags",
+			"labelSingular": "Tag",
+			"hierarchical": false,
+			"collections": [
+				"posts",
+				"projects"
+			],
+			"terms": [
+				{
+					"slug": "cloudflare",
+					"label": "Cloudflare"
+				},
+				{
+					"slug": "static-assets",
+					"label": "Static assets"
+				},
+				{
+					"slug": "nft-metadata",
+					"label": "NFT metadata"
+				},
+				{
+					"slug": "cost-reduction",
+					"label": "Cost reduction"
+				},
+				{
+					"slug": "the-graph",
+					"label": "The Graph"
+				},
+				{
+					"slug": "ipfs",
+					"label": "IPFS"
+				},
+				{
+					"slug": "bash",
+					"label": "Bash"
+				},
+				{
+					"slug": "release-automation",
+					"label": "Release automation"
+				},
+				{
+					"slug": "discourse",
+					"label": "Discourse"
+				},
+				{
+					"slug": "docker",
+					"label": "Docker"
+				},
+				{
+					"slug": "ssh",
+					"label": "SSH"
+				},
+				{
+					"slug": "incident-recovery",
+					"label": "Incident recovery"
+				},
+				{
+					"slug": "mermaid",
+					"label": "Mermaid"
+				},
+				{
+					"slug": "markdown",
+					"label": "Markdown"
+				},
+				{
+					"slug": "devops",
+					"label": "DevOps"
+				},
+				{
+					"slug": "architecture-documentation",
+					"label": "Architecture documentation"
+				}
+			]
+		}
+	],
+	"bylines": [
+		{
+			"id": "justin-avery",
+			"slug": "justin-avery",
+			"displayName": "Justin Avery",
+			"bio": "Founder and technical consultant",
+			"websiteUrl": "https://simplethin.gs"
+		}
+	],
+	"menus": [
+		{
+			"name": "primary",
+			"label": "Primary Navigation",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Home",
+					"url": "/"
+				},
+				{
+					"type": "custom",
+					"label": "Services",
+					"url": "/services"
+				},
+				{
+					"type": "custom",
+					"label": "Projects",
+					"url": "/projects"
+				},
+				{
+					"type": "custom",
+					"label": "Blog",
+					"url": "/blog"
+				},
+				{
+					"type": "custom",
+					"label": "Contact",
+					"url": "/contact"
+				}
+			]
+		}
+	],
+	"redirects": [
+		{
+			"source": "/posts",
+			"destination": "/blog",
+			"type": 301,
+			"enabled": true
+		}
+	],
+	"content": {
+		"pages": [
+			{
+				"id": "page-home",
+				"slug": "home",
+				"status": "published",
+				"data": {
+					"title": "Home",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "home-intro",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "home-intro-span",
+									"text": "Homepage sections are managed through the sections repeater below.",
+									"marks": []
+								}
+							]
+						}
+					],
+					"sections": [
+						{
+							"type": "hero",
+							"eyebrow": "Independent technology consultancy",
+							"title": "Empowering your business through technology.",
+							"summary": "I help teams design, modernise, and ship web platforms: practical automation, CMS migrations, resilient APIs, indexing, DevOps, performance optimisation, and edge-ready infrastructure.",
+							"primary_label": "Services",
+							"primary_url": "/services",
+							"secondary_label": "Selected work",
+							"secondary_url": "/projects",
+							"items": "Best fit | Small teams with messy platforms, migrations, brittle infra, or unclear technical choices.\nMethod | Trace the failure path, simplify the surface area, document the trade-offs, leave the team stronger.\nBias | Fast platforms, boring automation, readable docs, fewer moving parts.",
+							"variant": "field"
+						},
+						{
+							"type": "steps",
+							"eyebrow": "Simple steps",
+							"title": "A calm way through technical work",
+							"items": "Understand | We agree what matters, what is stuck, and what a useful outcome looks like.\nSimplify | We reduce the moving parts, fix the riskiest path first, and keep decisions visible.\nHand over | You get a working system, clear notes, and a calmer way to run it next time."
+						},
+						{
+							"type": "services",
+							"title": "What I help with",
+							"primary_label": "View services",
+							"primary_url": "/services",
+							"items": "Architecture and technical direction | CTO-style support for platform choices, delivery planning, vendor decisions, and readable technical strategy.\nAutomation and modernisation | CMS migrations, publishing workflows, practical automation, and platform moves with fewer moving parts.\nAPIs, indexing and data platforms | Resilient APIs, search and indexing systems, blockchain data flows, and product-ready integration layers.\nDevOps, servers and reliability | CI/CD, observability, deployments, server configuration, automation, and infrastructure made boring enough to trust.\nWeb platforms and CMS publishing | Fast sites, practical editing flows, content models, and publishing tools that are pleasant to use.\nPerformance and edge-ready systems | Performance optimisation, caching strategy, modern hosting, and fast delivery paths close to users."
+						},
+						{
+							"type": "projects",
+							"title": "Projects",
+							"primary_label": "View all",
+							"primary_url": "/projects",
+							"source": "projects",
+							"limit": 4
+						},
+						{
+							"type": "posts",
+							"title": "Recent writing",
+							"primary_label": "Read the blog",
+							"primary_url": "/blog",
+							"source": "posts",
+							"limit": 4
+						}
+					]
+				}
+			},
+			{
+				"id": "page-about",
+				"slug": "about",
+				"status": "published",
+				"data": {
+					"title": "About",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k5b",
+							"style": "h1",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5a",
+									"text": "About Simple Things",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k5d",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5c",
+									"text": "I help teams design, modernise, and ship web platforms: CMS migrations, automation, APIs, indexing, DevOps, performance optimisation, and edge-ready infrastructure.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k5f",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5e",
+									"text": "Simple Things is the independent technology practice of Justin Avery. The work sits somewhere between senior engineer, technical architect, head of digital, and fractional CTO: shaping the technical direction, then getting close enough to the code and infrastructure to make it real.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k5i",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5is",
+									"text": "The work is deliberately practical: clear architecture, useful automation, resilient APIs, clean CMS workflows, observable deployments, and documentation that helps the team keep moving after handover.",
+									"marks": []
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "page-services",
+				"slug": "services",
+				"status": "published",
+				"data": {
+					"title": "Services",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k5h",
+							"style": "h1",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5g",
+									"text": "Services",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k47",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k47s",
+									"text": "Calm senior engineering for teams building faster web platforms, cleaner CMS workflows, practical automation, resilient APIs, search/indexing systems, DevOps foundations, and performance-focused infrastructure.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k47b",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k46",
+									"text": "DevOps, servers and reliability",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k49",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k48",
+									"text": "Infrastructure design, automation, cost control, observability, deployment pipelines, server configuration, and production systems that need senior judgement without unnecessary drama.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4b",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4a",
+									"text": "Lower running costs",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4d",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4c",
+									"text": "Clearer release paths",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4f",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4e",
+									"text": "Operational confidence",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4h",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4g",
+									"text": "APIs, indexing and data platforms",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4j",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4i",
+									"text": "API design, integration layers, search and indexing reliability, protocol data pipelines, WebSocket flows, and the small pieces of automation that make complex data products easier to operate.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4l",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4k",
+									"text": "Stable indexing",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4n",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4m",
+									"text": "Cleaner data access",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4p",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4o",
+									"text": "Less operator toil",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4r",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4q",
+									"text": "Web platforms and product engineering",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4t",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4s",
+									"text": "Fast sites, internal tools, API integrations, CMS migrations, content models, and web products that keep their operational shape after launch.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4v",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4u",
+									"text": "Faster delivery",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4x",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4w",
+									"text": "Better maintainability",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4z",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4y",
+									"text": "Useful documentation",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k51",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k50",
+									"text": "Technical strategy for small teams",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k53",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k52",
+									"text": "CTO-style technical direction without hiring a full leadership team: architecture reviews, platform choices, vendor decisions, delivery planning, and hands-on implementation where it matters.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k55",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k54",
+									"text": "Sharper priorities",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k57",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k56",
+									"text": "Reduced technical risk",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k59",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k58",
+									"text": "More confident decisions",
+									"marks": []
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"posts": [
+			{
+				"id": "post-machine-for-dying",
+				"slug": "machine-for-dying",
+				"status": "published",
+				"data": {
+					"title": "A Machine for Dying - Resurrecting Diabolical Machines",
+					"excerpt": "I resurrected a dead project for less than $5 a month. Their project died because they couldn't sustain the AWS costs.",
+					"date": "2026-01-29",
+					"tweet_url": "",
+					"social_draft": "",
+					"links": [],
+					"featured_image": "/images/posts/machine-for-dying.jpg",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k1",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k0",
+									"text": "A few years ago I was introduced to NFTs and I fell in love.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2",
+									"text": "Stupid, I know. The heart wants what it wants.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k5",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4",
+									"text": "My first NFT was the profile image I still carry today, and onchain SVG Avastar that I bought from OpenSea for a few hundred dollars because it was bearded, had messy hair, and Australia green and gold colours.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k7",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6",
+									"text": "The second NFT I bought was Hidenki's Singularity project on Art Blocks (and later traded for a slightly better one on the NFTX vault swap).",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k9",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k8",
+									"text": "It was from that community that I found out about the Anomoslous Machines and the Machine for Dying, a nifty little SVG animated set of tiled NFTs.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kb",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "ka",
+									"text": "&lt;Longer story to come&gt;",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kf",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "kd",
+									"_type": "link",
+									"href": "https://diabolicalmachines.simplethin.gs"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kc",
+									"text": "I realised that they pulled down their website hosting the images because it was too expensive to run the infrastructure they had going on at AWS. I asked for the code to get the data so that I could try setup something to keep the beautiful artwork going... which resulted in ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "ke",
+									"text": "https://diabolicalmachines.simplethin.gs",
+									"marks": [
+										"kd"
+									]
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "justin-avery"
+					}
+				],
+				"taxonomies": {
+					"tag": []
+				}
+			},
+			{
+				"id": "post-502-ipfs-error-deploying-subgraphs-to-the-graph",
+				"slug": "502-ipfs-error-deploying-subgraphs-to-the-graph",
+				"status": "published",
+				"data": {
+					"title": "502 IPFS Error Deploying Subgraphs to The Graph",
+					"excerpt": "The IPFS endpoint on The Graph can be flakey at times, this script will help you deploy once and walk away.",
+					"date": "2025-05-07",
+					"tweet_url": "",
+					"social_draft": "",
+					"links": [],
+					"featured_image": "/images/posts/502-ipfs-error-deploying-subgraphs-to-the-graph.png",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "kk",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "kh",
+									"_type": "link",
+									"href": "https://simplethin.gs/posts/502-ipfs-error-deploying-subgraphs-to-the-graph#022c118522a4"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kg",
+									"text": "For new folks we'll explain a bit about The Graph, ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "ki",
+									"text": "for those that just want the solution go here",
+									"marks": [
+										"kh"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "kj",
+									"text": ".",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "km",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kl",
+									"text": "How The Graph Works",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "ko",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kn",
+									"text": "The Graph is an amazing piece of technology that works to collect blockchain data in an easy-to-access way that can still be stored in a decentralised manner.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kq",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kp",
+									"text": "The premise is simple.  You create a Subgraph where you define the data structure you want and the contracts/events that produce the data, and let it index from a particular block number and continue indexing with every block.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "ks",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kr",
+									"text": "To deploy a new Subgraph, you generate the IPFS files locally the deployment to The Graph IPFS servers where anyone can pick them up for indexing.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "ku",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kt",
+									"text": "Here in lies the issue.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kw",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kv",
+									"text": "The IPFS server within the Graph network is flakey at best.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "ky",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kx",
+									"text": "IPFS Script Workaround",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k10",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kz",
+									"text": "My new work around is to run a bash script that will keep looping through the deployment until it works. Simple, but effective.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k15",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "k12",
+									"_type": "link",
+									"href": "https://discord.com/channels/438038660412342282/438070183794573313/1369407648528601108"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k11",
+									"text": "Thanks to ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k13",
+									"text": "this post from ad0ll on Discord for the code",
+									"marks": [
+										"k12"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "k14",
+									"text": ".",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k16",
+							"language": "shell",
+							"code": "#!/usr/bin/env bash\n\nVERSION=$1\n\n# Check if version is provided\nif [ -z \"$VERSION\" ]; then\n    echo \"Usage: $0 <version>   # e.g. $0 v0.7.24\"\n    exit 1\nfi\n\n# Deploy the subgraph, retrying on IPFS gateway timeouts\nwhile true; do\n    # Pass the -l flag through to your yarn script.\n    # Depending on your Yarn version, you may need the extra \"--\":\n    # yarn run deploy-studio-sepolia -- -l \"$VERSION\"\n    yarn deploy-studio-sepolia -l \"$VERSION\"\n    if [ $? -eq 0 ]; then\n        echo \"✅ Deployed successfully (version $VERSION)\"\n        exit 0\n    fi\n    echo \"⚠️  IPFS gateway timeout, retrying in 5s…\"\n    sleep 5\ndone\n"
+						},
+						{
+							"_type": "block",
+							"_key": "k19",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k17",
+									"text": "Make it executable by running ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k18",
+									"text": "chmod +x deploy-sepolia.sh",
+									"marks": [
+										"code"
+									]
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k1b",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1a",
+									"text": "Now you can run this, and replace the version number.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k1c",
+							"language": "shell",
+							"code": "./deploy-sepolia.sh v0.7.24"
+						},
+						{
+							"_type": "block",
+							"_key": "k1e",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1d",
+									"text": "This keeps retrying until the issue goes away.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k1g",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1f",
+									"text": "Hooray!",
+									"marks": []
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "justin-avery"
+					}
+				],
+				"taxonomies": {
+					"tag": []
+				}
+			},
+			{
+				"id": "post-add-ssh-passphrase-once",
+				"slug": "add-ssh-passphrase-once",
+				"status": "published",
+				"data": {
+					"title": "Add SSH passphrase once",
+					"excerpt": "Avoid adding your passphrase multiple times by using ssh-add",
+					"date": "2024-12-11",
+					"tweet_url": "",
+					"social_draft": "",
+					"links": [],
+					"featured_image": "/images/posts/add-ssh-passphrase-once.jpg",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k1i",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1h",
+									"text": "Do you log onto many servers a day and are continuously entering your password over and over again?",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k1k",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1j",
+									"text": "Use the following",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k1l",
+							"language": "shell",
+							"code": "ssh-add"
+						},
+						{
+							"_type": "block",
+							"_key": "k1n",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1m",
+									"text": "You will then be prompted to enter the passphrase for your key",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k1o",
+							"language": "shell",
+							"code": "Enter passphrase for /Users/yourUserName/.ssh/id_rsa:\nIdentity added: /Users/yourUserName/.ssh/id_rsa"
+						},
+						{
+							"_type": "block",
+							"_key": "k1s",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1p",
+									"text": "Once completed when you ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k1q",
+									"text": "ssh",
+									"marks": [
+										"code"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "k1r",
+									"text": " into your next server you won't be prompted to add your password again.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k1u",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1t",
+									"text": "This of course means that anyone at your computer can now access your servers without knowing your passphrase, but I'm going to assume that you lock your computer when you leave it un-attended.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k1w",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1v",
+									"text": "I see this as a less risky way of managing your security than entering the password multiple times and having it accidently added to a chat window or seen on a screenshare.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k1y",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1x",
+									"text": "Do what works for you.",
+									"marks": []
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "justin-avery"
+					}
+				],
+				"taxonomies": {
+					"tag": []
+				}
+			},
+			{
+				"id": "post-discourse-oops-the-software-powering-this-discussion-forum-encountered-an-unexpected-problem-we",
+				"slug": "discourse-oops-the-software-powering-this-discussion-forum-encountered-an-unexpected-problem-we",
+				"status": "published",
+				"data": {
+					"title": "Discourse : Oops The software powering this discussion forum encountered an unexpected problem. We apologize for the inconvenience.",
+					"excerpt": "Reviving your discourse server after 500 server errors.",
+					"date": "2024-12-08",
+					"tweet_url": "",
+					"social_draft": "",
+					"links": [],
+					"featured_image": "/images/posts/discourse-oops-the-software-powering-this-discussion-forum-encountered-an-unexpected-problem-we.png",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k20",
+							"style": "blockquote",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1z",
+									"text": "The software powering this discussion forum encountered an unexpected problem. We apologize for the inconvenience.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k22",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k21",
+									"text": "The error message above is what we came across the other day on a clients Discourse Server.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k24",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k23",
+									"text": "The response from every page was a 500 with that message, which doesn't give much on where to go to get a solution.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k26",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k25",
+									"text": "If you still have SSH access to the server you are hosting then you're in luck, it's a fairly straightforward fix (for us at least).",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k28",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k27",
+									"text": "Manually update discourse and docker image to latest version",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k2a",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k29",
+									"text": "SSH into the server, assuming that you have System Administrator access",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k2b",
+							"language": "shell",
+							"code": "cd /var/discourse\n./launcher rebuild app"
+						},
+						{
+							"_type": "block",
+							"_key": "k2d",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2c",
+									"text": "That is essentially it.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k2f",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2e",
+									"text": "The process will take between 5-20 minutes to go through, and a few times it will look as though it's frozed... give it time.",
+									"marks": []
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "justin-avery"
+					}
+				],
+				"taxonomies": {
+					"tag": []
+				}
+			},
+			{
+				"id": "post-find-code-in-github-using-grep",
+				"slug": "find-code-in-github-using-grep",
+				"status": "published",
+				"data": {
+					"title": "Find code in github using Grep",
+					"excerpt": "Grep is a took that has been built by the team over at Vercel (thanks for the free hosting) and is designed to let you find code snippets in public github repositories FAST.",
+					"date": "2024-12-05",
+					"tweet_url": "",
+					"social_draft": "",
+					"links": [],
+					"featured_image": "/images/posts/find-code-in-github-using-grep.png",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k2h",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2g",
+									"text": "Grep is a took that has been built by the team over at Vercel (thanks for the free hosting) and is designed to let you find code snippets in public github repositories FAST.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k2k",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "k2i",
+									"_type": "link",
+									"href": "https://grep.app/"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2j",
+									"text": "https://grep.app/",
+									"marks": [
+										"k2i"
+									]
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k2m",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2l",
+									"text": "Usage",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k2o",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2n",
+									"text": "Aside from just finding things you're looking for you might want to get some insights into the types of things...",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k2r",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2p",
+									"text": "Checking the usage of a dependency",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "k2q",
+									"text": " — copy and past the dependency from your project ans see how/where other users are using the same thing",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k2u",
+							"style": "normal",
+							"listItem": "number",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2s",
+									"text": "Finding security holes",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"_key": "k2t",
+									"text": " — as an ethical hacker you might want to find all the instances where public repositories are over sharing api keys and give them a nudge",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k2w",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2v",
+									"text": "The UI allows you to filter by",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k2y",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2x",
+									"text": "Repository",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k30",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2z",
+									"text": "Path",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k32",
+							"style": "normal",
+							"listItem": "bullet",
+							"level": 1,
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k31",
+									"text": "Language",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k34",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k33",
+									"text": "and the search itslef has regular expressions, an option to match case and to match whole words.",
+									"marks": []
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "justin-avery"
+					}
+				],
+				"taxonomies": {
+					"tag": []
+				}
+			},
+			{
+				"id": "post-generating-infrastructure-diagrams",
+				"slug": "generating-infrastructure-diagrams",
+				"status": "published",
+				"data": {
+					"title": "Generating infrastructure diagrams",
+					"excerpt": "",
+					"date": "2024-11-22",
+					"tweet_url": "",
+					"social_draft": "",
+					"links": [],
+					"featured_image": "/images/posts/generating-infrastructure-diagrams.png",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k36",
+							"style": "h1",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k35",
+									"text": "Creating an Infrastructure Diagram for DevOps using Mermaid.live",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k38",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k37",
+									"text": "Creating an infrastructure diagram is a crucial step in understanding and communicating how your DevOps environment is structured. This guide will walk you through the process of creating an infrastructure diagram using Mermaid.live.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3a",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k39",
+									"text": "Step 1: Understand Your Infrastructure",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3c",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3b",
+									"text": "Before you start creating your diagram, you need to have a clear understanding of your infrastructure. This includes knowing the different components of your infrastructure and how they interact with each other.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3e",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3d",
+									"text": "Step 2: Use Mermaid Syntax",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3g",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3f",
+									"text": "Mermaid uses a simple markdown-like syntax that allows you to create diagrams using text. Here's an example of how you can represent your infrastructure using Mermaid syntax:",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k3h",
+							"language": "markdown",
+							"code": "// graphTD\n\n%% Graph Indexer Server\n\nA[Graph Indexer Server]-->|Indexing Requests|B[Base RPC Load Balancer]\n\nB-->RPC1[RPC Server 1]\n\nB-->RPC2[RPC Server 2]\n\nB-->RPC3[RPC Server 3]\n\n%% Postgres DB and Replicas\n\nA-->|Writes Data|C[Main Postgres DB]\n\nC-->|Streaming Updates|D[Replica Postgres DB 1]\n\nC-->|Streaming Updates|E[Replica Postgres DB 2]\n\nC-->|Streaming Updates|F[Replica Postgres DB 3]\n\n%% Query Nodes\n\nA-->|Query Requests from Decentralised Graph Network|Q1[Query Node]\n\nD-->|Query Requests|Q2[Query Node 2]\n\nE-->|Query Requests|Q3[Query Node 3]\n\nF-->|Query Requests|Q4[Query Node 4]\n\n%% NGINX Servers\n\nQ2-->LB1[Query Load Balancer]\n\nQ3-->LB1\n\nQ4-->LB1\n\nLB1-->|Requests|NGINX1[NGINX Server 1]\n\nLB1-->NGINX2[NGINX Server 2]\n\nLB1-->NGINX3[NGINX Server 3]\n\nLB1-->NGINX4[NGINX Server 4]\n\n%% Load Balancer for NGINX\n\nNGINX1-->LB2[g.flayerlabs.xyz Load Balancer]\n\nNGINX2-->LB2\n\nNGINX3-->LB2\n\nNGINX4-->LB2\n\n%% API and User Requests\n\nLB2-->|Requests|H[api.flayerlabs.xyz]\n\nH-->|Data Requests|API1[API Server 1]\n\nH-->API2[API Server 2]\n\nH-->API3[API Server 3]\n\nH-->API4[API Server 4]\n\nAPI1-->|Cache|Redis[Redis Cache Server]\n\nAPI2-->Redis\n\nAPI3-->Redis\n\nAPI4-->Redis\n\nAPI1-->|Direct Data Fetch|LB2\n\nAPI2-->|Direct Data Fetch|LB2\n\nAPI3-->|Direct Data Fetch|LB2\n\nAPI4-->|Direct Data Fetch|LB2"
+						},
+						{
+							"_type": "block",
+							"_key": "k3l",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "k3j",
+									"_type": "link",
+									"href": "/images/posts/generating-infrastructure-diagrams-screenshot-2024-11-22-at-21-27-14-png.png"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3i",
+									"text": "!",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k3k",
+									"text": "Network Diagram",
+									"marks": [
+										"k3j"
+									]
+								}
+							]
+						}
+					]
+				},
+				"bylines": [
+					{
+						"byline": "justin-avery"
+					}
+				],
+				"taxonomies": {
+					"tag": []
+				}
+			}
+		],
+		"projects": [
+			{
+				"id": "project-diabolical-machines",
+				"slug": "diabolical-machines",
+				"status": "published",
+				"data": {
+					"title": "Diabolical Machines resurrection",
+					"summary": "A dormant NFT artwork project brought back online with a leaner hosting model and a clearer path for long-term preservation.",
+					"featured_image": "/images/posts/machine-for-dying.jpg",
+					"client": "Simple Things",
+					"year": "2026",
+					"project_status": "Live",
+					"stack": [
+						"Cloudflare",
+						"Static assets",
+						"NFT metadata",
+						"Cost reduction"
+					],
+					"business_benefits": [
+						"Reduced the ongoing hosting burden from expensive infrastructure to a small monthly footprint.",
+						"Kept a community artwork project accessible instead of letting it disappear.",
+						"Created a maintainable path for future preservation work."
+					],
+					"technical_highlights": [
+						"Recovered project data from an abandoned implementation.",
+						"Separated artwork delivery from heavyweight infrastructure.",
+						"Designed the replacement around simple, cache-friendly hosting."
+					],
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k3n",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3m",
+									"text": "The original site behind the artwork had gone offline because the infrastructure cost was too high to sustain. The useful work was not to make the system more elaborate; it was to make the project cheaper, more boring, and easier to keep alive.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3p",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3o",
+									"text": "That meant recovering the data, understanding how the artwork was generated, and moving the public delivery path to something that could sit quietly at the edge without needing a production team around it.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3r",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3q",
+									"text": "The lesson was familiar: preservation often comes down to removing operational drama. A good system can be impressive, but a survivable system is usually simple.",
+									"marks": []
+								}
+							]
+						}
+					],
+					"gallery": [],
+					"url": "https://diabolicalmachines.simplethin.gs",
+					"repo_url": ""
+				},
+				"taxonomies": {
+					"tag": [
+						"cloudflare",
+						"static-assets",
+						"nft-metadata",
+						"cost-reduction"
+					]
+				}
+			},
+			{
+				"id": "project-subgraph-deployment-reliability",
+				"slug": "subgraph-deployment-reliability",
+				"status": "published",
+				"data": {
+					"title": "Subgraph deployment reliability",
+					"summary": "A pragmatic retry workflow for The Graph deployments when IPFS gateway instability interrupts otherwise valid releases.",
+					"featured_image": "/images/posts/502-ipfs-error-deploying-subgraphs-to-the-graph.png",
+					"client": "Simple Things",
+					"year": "2025",
+					"project_status": "Technical note",
+					"stack": [
+						"The Graph",
+						"IPFS",
+						"Bash",
+						"Release automation"
+					],
+					"business_benefits": [
+						"Turned an unreliable manual release step into a workflow that can be left to complete.",
+						"Reduced deployment interruptions caused by transient infrastructure errors.",
+						"Made the workaround easy for other operators to reuse."
+					],
+					"technical_highlights": [
+						"Wrapped the deploy command with version input validation.",
+						"Retried only after failed deploy attempts.",
+						"Kept the solution transparent enough to debug in a terminal."
+					],
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k3t",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3s",
+									"text": "Some failures do not need a platform rewrite. They need a careful wrapper around the bit that flakes.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3v",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3u",
+									"text": "The Graph deployment flow can fail when the IPFS endpoint times out. The generated artifacts are valid, the release intent is valid, and the operator mostly needs persistence. The fix was a small script that validates the release version, runs the deploy, and retries on failure until the gateway cooperates.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3x",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3w",
+									"text": "This is the kind of engineering I like: small, legible, operationally useful, and biased toward getting the team back to the work that matters.",
+									"marks": []
+								}
+							]
+						}
+					],
+					"gallery": [],
+					"url": "",
+					"repo_url": ""
+				},
+				"taxonomies": {
+					"tag": [
+						"the-graph",
+						"ipfs",
+						"bash",
+						"release-automation"
+					]
+				}
+			},
+			{
+				"id": "project-discourse-recovery",
+				"slug": "discourse-recovery",
+				"status": "published",
+				"data": {
+					"title": "Discourse incident recovery",
+					"summary": "A fast recovery path for a Discourse instance returning a generic 500 error across every page.",
+					"featured_image": "/images/posts/discourse-oops-the-software-powering-this-discussion-forum-encountered-an-unexpected-problem-we.png",
+					"client": "Simple Things",
+					"year": "2024",
+					"project_status": "Recovery note",
+					"stack": [
+						"Discourse",
+						"Docker",
+						"SSH",
+						"Incident recovery"
+					],
+					"business_benefits": [
+						"Restored access to a community forum without a prolonged investigation.",
+						"Captured the recovery path for future incidents.",
+						"Kept the fix simple enough for a system administrator to repeat."
+					],
+					"technical_highlights": [
+						"Used SSH access to reach the Discourse host.",
+						"Rebuilt the Discourse app container from the server.",
+						"Documented the expected rebuild delay so the process was less alarming."
+					],
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k3z",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3y",
+									"text": "The public error was not generous: every page returned a 500 with a generic apology. With SSH access still available, the useful recovery path was to rebuild the Discourse application from the host.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k41",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k40",
+									"text": "The important part was not sophistication. It was knowing where to stand, what command to run, and when to wait rather than interrupt a rebuild that looks stuck.",
+									"marks": []
+								}
+							]
+						}
+					],
+					"gallery": [],
+					"url": "",
+					"repo_url": ""
+				},
+				"taxonomies": {
+					"tag": [
+						"discourse",
+						"docker",
+						"ssh",
+						"incident-recovery"
+					]
+				}
+			},
+			{
+				"id": "project-infrastructure-diagramming",
+				"slug": "infrastructure-diagramming",
+				"status": "published",
+				"data": {
+					"title": "Infrastructure diagramming with Mermaid",
+					"summary": "A text-first approach to documenting infrastructure so architecture can move through pull requests instead of image files.",
+					"featured_image": "/images/posts/generating-infrastructure-diagrams.png",
+					"client": "Simple Things",
+					"year": "2024",
+					"project_status": "Documentation system",
+					"stack": [
+						"Mermaid",
+						"Markdown",
+						"DevOps",
+						"Architecture documentation"
+					],
+					"business_benefits": [
+						"Made infrastructure easier to explain to technical and non-technical stakeholders.",
+						"Moved diagrams into version control where changes can be reviewed.",
+						"Reduced stale documentation by keeping diagrams close to implementation."
+					],
+					"technical_highlights": [
+						"Modelled indexers, load balancers, query nodes, databases, replicas, and API services.",
+						"Used Mermaid syntax that can be embedded in Markdown documents.",
+						"Kept the diagram source editable by the team."
+					],
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k43",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k42",
+									"text": "Infrastructure diagrams are only useful when people can change them. Mermaid is a good fit because it turns the diagram into text, which means it can live in the same review flow as code and deployment notes.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k45",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k44",
+									"text": "The value is not just the picture. It is the conversation created by making dependencies, data flow, and operational assumptions visible.",
+									"marks": []
+								}
+							]
+						}
+					],
+					"gallery": [],
+					"url": "",
+					"repo_url": ""
+				},
+				"taxonomies": {
+					"tag": [
+						"mermaid",
+						"markdown",
+						"devops",
+						"architecture-documentation"
+					]
+				}
+			}
+		]
+	}
+}

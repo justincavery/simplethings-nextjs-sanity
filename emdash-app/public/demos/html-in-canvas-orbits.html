@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HTML-in-Canvas orbital controls</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #090b10;
+        color: #f8fafc;
+      }
+
+      .lab {
+        position: relative;
+        min-height: 100vh;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 70% 18%, rgba(255, 196, 87, 0.16), transparent 24rem),
+          radial-gradient(circle at 18% 80%, rgba(71, 214, 255, 0.14), transparent 20rem),
+          #090b10;
+      }
+
+      canvas {
+        display: block;
+        width: 100%;
+        height: min(76vh, 680px);
+        min-height: 540px;
+      }
+
+      .panel {
+        width: min(21rem, calc(100vw - 2rem));
+        padding: 1rem;
+        border: 1px solid rgba(248, 250, 252, 0.2);
+        border-radius: 8px;
+        background: rgba(12, 17, 27, 0.88);
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.34);
+        color: #f8fafc;
+        transform-origin: top left;
+        backdrop-filter: blur(16px);
+      }
+
+      .panel--fallback {
+        position: absolute;
+        left: 1rem;
+        top: 1rem;
+      }
+
+      .panel__head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .panel h1 {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.2;
+      }
+
+      .status {
+        display: block;
+        margin-top: 0.25rem;
+        color: #9fb1c8;
+        font-size: 0.75rem;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      button {
+        flex: 0 0 auto;
+        border: 1px solid rgba(248, 250, 252, 0.22);
+        border-radius: 6px;
+        background: #f8fafc;
+        color: #0d0e12;
+        cursor: pointer;
+        font-size: 0.78rem;
+        font-weight: 700;
+        padding: 0.45rem 0.65rem;
+      }
+
+      button:focus-visible,
+      input:focus-visible {
+        outline: 2px solid #47d6ff;
+        outline-offset: 2px;
+      }
+
+      .field {
+        display: grid;
+        gap: 0.35rem;
+        margin-top: 0.9rem;
+      }
+
+      .field__label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        color: #dbe7f3;
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+
+      output {
+        color: #47d6ff;
+        font-variant-numeric: tabular-nums;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: #47d6ff;
+      }
+
+      .toggle {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        color: #dbe7f3;
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      .readout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.55rem;
+        margin-top: 1rem;
+      }
+
+      .metric {
+        border: 1px solid rgba(248, 250, 252, 0.14);
+        border-radius: 6px;
+        padding: 0.55rem;
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .metric span {
+        display: block;
+        color: #9fb1c8;
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 0.18rem;
+        color: #fff3b0;
+        font-size: 0.92rem;
+        font-variant-numeric: tabular-nums;
+      }
+
+      @media (max-width: 680px) {
+        canvas {
+          min-height: 620px;
+        }
+
+        .panel,
+        .panel--fallback {
+          left: 0.75rem;
+          right: 0.75rem;
+          top: 0.75rem;
+          width: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="lab" id="lab">
+      <canvas id="space" layoutsubtree aria-label="Three body orbital mechanics simulation">
+        <form class="panel" id="orbit-panel">
+          <div class="panel__head">
+            <div>
+              <h1>Three-body lab</h1>
+              <span class="status" id="status">Starting</span>
+            </div>
+            <button type="button" id="reset">Reset</button>
+          </div>
+
+          <label class="field" for="star-mass">
+            <span class="field__label">
+              Star mass
+              <output id="star-mass-value" for="star-mass">1.20x</output>
+            </span>
+            <input id="star-mass" type="range" min="0.65" max="2.2" value="1.2" step="0.05" />
+          </label>
+
+          <label class="field" for="jupiter-nudge">
+            <span class="field__label">
+              Giant nudge
+              <output id="jupiter-nudge-value" for="jupiter-nudge">0.00</output>
+            </span>
+            <input id="jupiter-nudge" type="range" min="-0.65" max="0.65" value="0" step="0.01" />
+          </label>
+
+          <label class="field" for="time-scale">
+            <span class="field__label">
+              Time scale
+              <output id="time-scale-value" for="time-scale">1.0x</output>
+            </span>
+            <input id="time-scale" type="range" min="0.2" max="3" value="1" step="0.1" />
+          </label>
+
+          <label class="toggle" for="trails">
+            <input id="trails" type="checkbox" checked />
+            Trails
+          </label>
+
+          <div class="readout" aria-live="polite">
+            <div class="metric">
+              <span>Closest pass</span>
+              <strong id="closest-pass">0 px</strong>
+            </div>
+            <div class="metric">
+              <span>Energy drift</span>
+              <strong id="energy-drift">0.00%</strong>
+            </div>
+          </div>
+        </form>
+      </canvas>
+    </main>
+
+    <script>
+      const lab = document.querySelector("#lab");
+      const canvas = document.querySelector("#space");
+      const ctx = canvas.getContext("2d");
+      const panel = document.querySelector("#orbit-panel");
+      const status = document.querySelector("#status");
+      const resetButton = document.querySelector("#reset");
+      const starMassInput = document.querySelector("#star-mass");
+      const nudgeInput = document.querySelector("#jupiter-nudge");
+      const timeScaleInput = document.querySelector("#time-scale");
+      const trailsInput = document.querySelector("#trails");
+      const starMassValue = document.querySelector("#star-mass-value");
+      const nudgeValue = document.querySelector("#jupiter-nudge-value");
+      const timeScaleValue = document.querySelector("#time-scale-value");
+      const closestPass = document.querySelector("#closest-pass");
+      const energyDrift = document.querySelector("#energy-drift");
+
+      const supportsHtmlInCanvas =
+        typeof ctx.drawElementImage === "function" &&
+        typeof canvas.requestPaint === "function";
+
+      if (!supportsHtmlInCanvas) {
+        panel.classList.add("panel--fallback");
+        lab.append(panel);
+      }
+
+      status.textContent = supportsHtmlInCanvas
+        ? "HTML-in-Canvas path"
+        : "DOM overlay fallback";
+
+      const G = 52;
+      const softening = 90;
+      let dpr = 1;
+      let cssWidth = 0;
+      let cssHeight = 0;
+      let bodies = [];
+      let initialEnergy = 0;
+      let minimumDistance = Infinity;
+      let frame = 0;
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        cssWidth = rect.width;
+        cssHeight = rect.height;
+        canvas.width = Math.max(1, Math.round(rect.width * dpr));
+        canvas.height = Math.max(1, Math.round(rect.height * dpr));
+      }
+
+      const resizeObserver = new ResizeObserver(resize);
+      resizeObserver.observe(canvas);
+      resize();
+
+      function makeBody(name, mass, radius, x, y, vx, vy, color, glow) {
+        return {
+          name,
+          mass,
+          radius,
+          x,
+          y,
+          vx,
+          vy,
+          color,
+          glow,
+          trail: [],
+        };
+      }
+
+      function resetSystem() {
+        const starMass = Number(starMassInput.value);
+        const nudge = Number(nudgeInput.value);
+        const centralMass = 2200 * starMass;
+        const innerRadius = 118;
+        const giantRadius = 220;
+        const scoutRadius = 176;
+
+        bodies = [
+          makeBody("Aurelia", centralMass, 15, 0, 0, 0, 0, "#ffd166", "#fff3b0"),
+          makeBody(
+            "Kepler-9b",
+            1.4,
+            5,
+            innerRadius,
+            0,
+            0,
+            Math.sqrt((G * centralMass) / innerRadius) * 0.98,
+            "#47d6ff",
+            "#a5f3fc"
+          ),
+          makeBody(
+            "Giant",
+            24,
+            9,
+            -giantRadius,
+            0,
+            0,
+            -Math.sqrt((G * centralMass) / giantRadius) * (0.92 + nudge * 0.18),
+            "#ff6b6b",
+            "#fecaca"
+          ),
+          makeBody(
+            "Probe",
+            0.08,
+            4,
+            0,
+            scoutRadius,
+            -Math.sqrt((G * centralMass) / scoutRadius) * 1.08,
+            0,
+            "#c77dff",
+            "#e9d5ff"
+          ),
+        ];
+
+        initialEnergy = totalEnergy();
+        minimumDistance = Infinity;
+        frame = 0;
+      }
+
+      function updateLabels() {
+        const starMass = Number(starMassInput.value);
+        const nudge = Number(nudgeInput.value);
+        const scale = Number(timeScaleInput.value);
+        starMassValue.value = `${starMass.toFixed(2)}x`;
+        nudgeValue.value = nudge.toFixed(2);
+        timeScaleValue.value = `${scale.toFixed(1)}x`;
+      }
+
+      function totalEnergy() {
+        let kinetic = 0;
+        let potential = 0;
+
+        for (const body of bodies) {
+          kinetic += 0.5 * body.mass * (body.vx * body.vx + body.vy * body.vy);
+        }
+
+        for (let i = 0; i < bodies.length; i += 1) {
+          for (let j = i + 1; j < bodies.length; j += 1) {
+            const a = bodies[i];
+            const b = bodies[j];
+            const dx = b.x - a.x;
+            const dy = b.y - a.y;
+            potential -= (G * a.mass * b.mass) / Math.sqrt(dx * dx + dy * dy + softening);
+          }
+        }
+
+        return kinetic + potential;
+      }
+
+      function accelerations() {
+        const values = bodies.map(() => ({ x: 0, y: 0 }));
+
+        for (let i = 0; i < bodies.length; i += 1) {
+          for (let j = i + 1; j < bodies.length; j += 1) {
+            const a = bodies[i];
+            const b = bodies[j];
+            const dx = b.x - a.x;
+            const dy = b.y - a.y;
+            const distanceSquared = dx * dx + dy * dy + softening;
+            const distance = Math.sqrt(distanceSquared);
+            const factor = G / (distanceSquared * distance);
+
+            values[i].x += dx * factor * b.mass;
+            values[i].y += dy * factor * b.mass;
+            values[j].x -= dx * factor * a.mass;
+            values[j].y -= dy * factor * a.mass;
+
+            if (i > 0 && j > 0) {
+              minimumDistance = Math.min(minimumDistance, distance);
+            }
+          }
+        }
+
+        return values;
+      }
+
+      function stepSimulation(dt) {
+        const first = accelerations();
+
+        for (let i = 0; i < bodies.length; i += 1) {
+          const body = bodies[i];
+          body.x += body.vx * dt + 0.5 * first[i].x * dt * dt;
+          body.y += body.vy * dt + 0.5 * first[i].y * dt * dt;
+        }
+
+        const second = accelerations();
+
+        for (let i = 0; i < bodies.length; i += 1) {
+          const body = bodies[i];
+          body.vx += 0.5 * (first[i].x + second[i].x) * dt;
+          body.vy += 0.5 * (first[i].y + second[i].y) * dt;
+
+          if (trailsInput.checked && frame % 2 === 0) {
+            body.trail.push([body.x, body.y]);
+            if (body.trail.length > 170) body.trail.shift();
+          } else if (!trailsInput.checked) {
+            body.trail.length = 0;
+          }
+        }
+      }
+
+      function drawBackground() {
+        ctx.fillStyle = "#090b10";
+        ctx.fillRect(0, 0, cssWidth, cssHeight);
+
+        ctx.save();
+        ctx.translate(cssWidth / 2, cssHeight / 2);
+        ctx.strokeStyle = "rgba(248, 250, 252, 0.08)";
+        ctx.lineWidth = 1;
+
+        for (const radius of [90, 150, 220, 290]) {
+          ctx.beginPath();
+          ctx.arc(0, 0, radius, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        ctx.restore();
+
+        ctx.fillStyle = "rgba(248, 250, 252, 0.6)";
+        for (let i = 0; i < 72; i += 1) {
+          const x = (i * 193) % Math.max(cssWidth, 1);
+          const y = (i * 89) % Math.max(cssHeight, 1);
+          const alpha = 0.18 + ((i % 9) / 18);
+          ctx.globalAlpha = alpha;
+          ctx.fillRect(x, y, i % 7 === 0 ? 2 : 1, i % 5 === 0 ? 2 : 1);
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      function drawBody(body) {
+        const x = cssWidth / 2 + body.x;
+        const y = cssHeight / 2 + body.y;
+
+        if (body.trail.length > 2) {
+          ctx.beginPath();
+          body.trail.forEach((point, index) => {
+            const tx = cssWidth / 2 + point[0];
+            const ty = cssHeight / 2 + point[1];
+            if (index === 0) ctx.moveTo(tx, ty);
+            else ctx.lineTo(tx, ty);
+          });
+          ctx.strokeStyle = body.color;
+          ctx.globalAlpha = 0.38;
+          ctx.lineWidth = body.radius > 8 ? 1.7 : 1.2;
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+
+        const gradient = ctx.createRadialGradient(x, y, 1, x, y, body.radius * 3.4);
+        gradient.addColorStop(0, body.glow);
+        gradient.addColorStop(0.26, body.color);
+        gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(x, y, body.radius * 3.4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = body.color;
+        ctx.beginPath();
+        ctx.arc(x, y, body.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (body.name !== "Aurelia") {
+          ctx.fillStyle = "rgba(248, 250, 252, 0.74)";
+          ctx.font = "12px Inter, system-ui, sans-serif";
+          ctx.fillText(body.name, x + body.radius + 7, y - body.radius - 5);
+        }
+      }
+
+      function render() {
+        if (ctx.reset) ctx.reset();
+        else ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+
+        drawBackground();
+
+        for (const body of bodies) {
+          drawBody(body);
+        }
+
+        if (supportsHtmlInCanvas) {
+          try {
+            const transform = ctx.drawElementImage(panel, 18, 18);
+            panel.style.transform = transform.toString();
+          } catch (error) {
+            status.textContent = "Waiting for canvas paint";
+          }
+        }
+      }
+
+      function updateReadouts() {
+        const energy = totalEnergy();
+        const drift = initialEnergy === 0 ? 0 : Math.abs((energy - initialEnergy) / initialEnergy) * 100;
+        closestPass.textContent = `${Math.round(minimumDistance)} px`;
+        energyDrift.textContent = `${drift.toFixed(2)}%`;
+      }
+
+      let lastTime = performance.now();
+
+      function tick(now) {
+        const elapsed = Math.min(0.04, (now - lastTime) / 1000);
+        const timeScale = Number(timeScaleInput.value);
+        lastTime = now;
+
+        for (let i = 0; i < 3; i += 1) {
+          stepSimulation(elapsed * timeScale * 0.33);
+        }
+
+        frame += 1;
+
+        if (frame % 6 === 0) {
+          updateReadouts();
+        }
+
+        if (supportsHtmlInCanvas) canvas.requestPaint();
+        else render();
+
+        requestAnimationFrame(tick);
+      }
+
+      canvas.addEventListener("paint", render);
+
+      for (const control of [starMassInput, nudgeInput]) {
+        control.addEventListener("input", () => {
+          updateLabels();
+          resetSystem();
+        });
+      }
+
+      timeScaleInput.addEventListener("input", updateLabels);
+      trailsInput.addEventListener("change", () => {
+        if (!trailsInput.checked) {
+          for (const body of bodies) body.trail.length = 0;
+        }
+      });
+
+      resetButton.addEventListener("click", () => {
+        updateLabels();
+        resetSystem();
+      });
+
+      updateLabels();
+      resetSystem();
+      requestAnimationFrame(tick);
+    </script>
+  </body>
+</html>

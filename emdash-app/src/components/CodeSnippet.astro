@@ -1,0 +1,121 @@
+---
+export interface Props {
+	node?: {
+		_type: "code";
+		_key?: string;
+		code?: string;
+		language?: string;
+		filename?: string;
+	};
+}
+
+const { node } = Astro.props;
+const code = node?.code || "";
+const language = node?.language?.trim();
+const filename = node?.filename?.trim();
+const label = filename || language || "Code";
+---
+
+{code && (
+	<figure class="code-snippet">
+		<figcaption>
+			<span>{label}</span>
+			<button type="button" data-copy-code>Copy</button>
+		</figcaption>
+		<pre class={language ? `language-${language}` : undefined}><code class={language ? `language-${language}` : undefined}>{code}</code></pre>
+	</figure>
+)}
+
+<script>
+	document.addEventListener("click", async (event) => {
+		const button = event.target instanceof HTMLElement ? event.target.closest("[data-copy-code]") : null;
+		if (!(button instanceof HTMLButtonElement)) return;
+		const figure = button.closest(".code-snippet");
+		const code = figure?.querySelector("code")?.textContent;
+		if (!code || !navigator.clipboard) return;
+
+		await navigator.clipboard.writeText(code);
+		const original = button.textContent || "Copy";
+		button.textContent = "Copied";
+		window.setTimeout(() => {
+			button.textContent = original;
+		}, 1600);
+	});
+</script>
+
+<style>
+	.code-snippet {
+		background: #171717;
+		border: 1px solid #343434;
+		border-left: 4px solid var(--color-accent);
+		border-radius: 8px;
+		box-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+		color: #f4f4f4;
+		margin: var(--spacing-xl) 0;
+		overflow: hidden;
+	}
+
+	.code-snippet figcaption {
+		align-items: center;
+		background: rgba(255, 255, 255, 0.06);
+		border-bottom: 1px solid #343434;
+		display: flex;
+		gap: var(--spacing-md);
+		justify-content: space-between;
+		padding: 0.65rem 0.85rem;
+	}
+
+	.code-snippet span,
+	.code-snippet button {
+		font-family: ui-monospace, "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", monospace;
+		font-size: 0.75rem;
+	}
+
+	.code-snippet button {
+		background: transparent;
+		border: 1px solid rgba(255, 255, 255, 0.22);
+		border-radius: 4px;
+		color: #f4f4f4;
+		cursor: pointer;
+		padding: 0.25rem 0.45rem;
+	}
+
+	.code-snippet pre {
+		font-family: ui-monospace, "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", monospace;
+		font-size: clamp(0.82rem, 0.78rem + 0.18vw, 0.94rem);
+		line-height: 1.7;
+		margin: 0;
+		max-width: 100%;
+		overflow-x: auto;
+		overflow-y: hidden;
+		padding: 1rem 1.1rem;
+		tab-size: 2;
+		white-space: pre-wrap;
+		overflow-wrap: anywhere;
+		word-break: normal;
+	}
+
+	.code-snippet code {
+		background: transparent;
+		border: 0;
+		color: inherit;
+		display: block;
+		font: inherit;
+		min-width: 0;
+		padding: 0;
+		white-space: inherit;
+		overflow-wrap: inherit;
+	}
+
+	@media (max-width: 640px) {
+		.code-snippet {
+			border-radius: 6px;
+			margin-left: calc(var(--spacing-lg) * -0.35);
+			margin-right: calc(var(--spacing-lg) * -0.35);
+		}
+
+		.code-snippet pre {
+			padding: 0.85rem;
+		}
+	}
+</style>

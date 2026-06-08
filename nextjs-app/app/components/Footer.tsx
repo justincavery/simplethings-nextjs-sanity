@@ -1,29 +1,31 @@
+import Link from "next/link";
+
+import Brand from "@/app/components/Brand";
+import { site } from "@/lib/content";
+
 export default function Footer() {
   return (
-    <footer className="bg-gray-50 border-gray-100 border-t">
-      <div className="container">
-        <div className="flex flex-col items-center py-28 lg:flex-row">
-          <h3 className="mb-10 text-gray-800/50 text-center text-2xl font-bold leading-tight tracking-tighter lg:mb-0 lg:w-1/2 lg:pr-4 lg:text-left lg:text-2xl">
-            Built by <span className="tracking-tight"><span className="text-red-500 ">
-                  Simple
-                </span>
-                <span className="text-[#000] " >
-                  Things
-                </span></span> with the help of Sanity + Next.js.
-          </h3>
-          <div className="flex flex-col gap-3 items-center justify-center lg:w-1/2 lg:flex-row lg:pl-4">
-            {/* <a
-              href="https://github.com/sanity-io/sanity-template-nextjs-clean"
-              className="rounded-full flex gap-2 items-center bg-black hover:bg-red-500 focus:bg-cyan-500 py-3 px-6 text-white transition-colors duration-200"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View on GitHub
-            </a>
-            <a href="https://nextjs.org/docs" className="mx-3 hover:underline">
-              Read Next.js Documentation
-            </a> */}
+    <footer className="border-t border-gray-100 bg-gray-50">
+      <div className="container grid gap-8 py-16 sm:grid-cols-[1.2fr_0.8fr] sm:py-20">
+        <div>
+          <div className="text-2xl">
+            <Brand />
           </div>
+          <p className="mt-4 max-w-xl text-sm leading-6 text-gray-600">{site.description}</p>
+        </div>
+        <div className="grid gap-3 text-sm text-gray-600 sm:justify-end sm:text-right">
+          <Link href="/services" className="hover:text-red-500">
+            Services
+          </Link>
+          <Link href="/projects" className="hover:text-red-500">
+            Projects
+          </Link>
+          <Link href="/blog" className="hover:text-red-500">
+            Blog
+          </Link>
+          <a href="mailto:hello@simplethin.gs" className="hover:text-red-500">
+            hello@simplethin.gs
+          </a>
         </div>
       </div>
     </footer>

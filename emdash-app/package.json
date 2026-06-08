@@ -1,0 +1,36 @@
+{
+  "name": "emdash-app",
+  "version": "0.0.3",
+  "private": true,
+  "type": "module",
+  "emdash": {
+    "label": "Simple Things",
+    "seed": "seed/seed.json"
+  },
+  "scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"preview:worker": "wrangler dev --config dist/server/wrangler.json --local --port 8787",
+		"review:worker": "astro build && wrangler dev --config dist/server/wrangler.json --local --port 8787",
+		"deploy": "astro build && wrangler deploy",
+		"cms:homepage-sections": "node scripts/update-homepage-sections-schema.mjs",
+		"seed:migrate": "node ../scripts/generate-emdash-seed.mjs",
+		"typecheck": "astro check"
+	},
+  "dependencies": {
+    "@astrojs/cloudflare": "^13.5.3",
+    "@astrojs/react": "^5.0.0",
+    "@emdash-cms/cloudflare": "^0.17.0",
+    "astro": "^6.3.0",
+    "emdash": "^0.17.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "workers-og": "^0.0.27"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.7",
+    "@cloudflare/workers-types": "^4.20260305.1",
+    "wrangler": "^4.95.0"
+  }
+}

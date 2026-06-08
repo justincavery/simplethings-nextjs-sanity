@@ -1,0 +1,123 @@
+---
+import { sanitizeHref } from "emdash";
+
+export interface Props {
+	node?: {
+		_type: "demo";
+		_key?: string;
+		title?: string;
+		description?: string;
+		url?: string;
+		label?: string;
+		embed_url?: string;
+		embedUrl?: string;
+		media_url?: string;
+		mediaUrl?: string;
+		height?: number | string;
+	};
+}
+
+const { node } = Astro.props;
+const title = node?.title?.trim() || "Demo";
+const description = node?.description?.trim();
+const url = sanitizeHref(node?.url);
+const embedUrl = safeFrameUrl(node?.embed_url || node?.embedUrl);
+const mediaUrl = safeMediaUrl(node?.media_url || node?.mediaUrl);
+const height = normaliseHeight(node?.height);
+const label = node?.label?.trim() || "Open demo";
+
+function safeFrameUrl(value: unknown): string {
+	if (typeof value !== "string") return "";
+	const trimmed = value.trim();
+	if (!trimmed) return "";
+	return /^https?:\/\//i.test(trimmed) || trimmed.startsWith("/") ? trimmed : "";
+}
+
+function safeMediaUrl(value: unknown): string {
+	if (typeof value !== "string") return "";
+	const trimmed = value.trim();
+	if (!trimmed) return "";
+	return /^https?:\/\//i.test(trimmed) || trimmed.startsWith("/") ? trimmed : "";
+}
+
+function normaliseHeight(value: unknown): number {
+	const parsed = typeof value === "number" ? value : Number.parseInt(String(value || ""), 10);
+	if (!Number.isFinite(parsed)) return 520;
+	return Math.min(900, Math.max(260, parsed));
+}
+---
+
+<aside class="demo-embed">
+	<div class="demo-copy">
+		<p class="demo-kicker">Demo</p>
+		<h3>{title}</h3>
+		{description && <p>{description}</p>}
+		{url !== "#" && (
+			<a href={url} target="_blank" rel="noopener noreferrer">{label}</a>
+		)}
+	</div>
+	{embedUrl ? (
+		<iframe
+			src={embedUrl}
+			title={title}
+			height={height}
+			loading="lazy"
+			referrerpolicy="no-referrer-when-downgrade"
+			sandbox="allow-forms allow-popups allow-scripts allow-same-origin"
+		></iframe>
+	) : mediaUrl ? (
+		<img src={mediaUrl} alt={title} loading="lazy" />
+	) : null}
+</aside>
+
+<style>
+	.demo-embed {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-left: 4px solid var(--color-accent);
+		border-radius: var(--radius);
+		margin: var(--spacing-2xl) 0;
+		overflow: hidden;
+	}
+
+	.demo-copy {
+		padding: var(--spacing-lg);
+	}
+
+	.demo-kicker {
+		color: var(--color-accent);
+		font-size: var(--font-size-sm);
+		font-weight: 800;
+		letter-spacing: 0;
+		margin-bottom: var(--spacing-xs);
+		text-transform: uppercase;
+	}
+
+	.demo-copy h3 {
+		font-size: var(--font-size-xl);
+		margin-bottom: var(--spacing-sm);
+	}
+
+	.demo-copy p:not(.demo-kicker) {
+		color: var(--color-muted);
+		line-height: 1.65;
+		margin-bottom: var(--spacing-md);
+	}
+
+	.demo-copy a {
+		color: var(--color-accent);
+		font-weight: 800;
+	}
+
+	.demo-embed iframe,
+	.demo-embed img {
+		border: 0;
+		border-top: 1px solid var(--color-border);
+		display: block;
+		width: 100%;
+	}
+
+	.demo-embed img {
+		height: auto;
+	}
+</style>

@@ -1,0 +1,19 @@
+---
+import { PortableText } from "emdash/ui";
+import CodeSnippet from "./CodeSnippet.astro";
+import DemoEmbed from "./DemoEmbed.astro";
+
+export interface Props {
+	value?: unknown;
+}
+
+const { value } = Astro.props;
+const components = {
+	type: {
+		code: CodeSnippet,
+		demo: DemoEmbed,
+	},
+};
+---
+
+{value ? <PortableText value={value as any} components={components} /> : null}

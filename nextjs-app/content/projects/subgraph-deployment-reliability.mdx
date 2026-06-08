@@ -1,0 +1,28 @@
+---
+title: "Subgraph deployment reliability"
+description: "A pragmatic retry workflow for The Graph deployments when IPFS gateway instability interrupts otherwise valid releases."
+year: "2025"
+status: "Technical note"
+featured: true
+coverImage: "/images/posts/502-ipfs-error-deploying-subgraphs-to-the-graph.png"
+coverAlt: "The Graph infrastructure screenshot"
+stack:
+  - The Graph
+  - IPFS
+  - Bash
+  - Release automation
+businessBenefits:
+  - "Turned an unreliable manual release step into a workflow that can be left to complete."
+  - "Reduced deployment interruptions caused by transient infrastructure errors."
+  - "Made the workaround easy for other operators to reuse."
+technicalHighlights:
+  - "Wrapped the deploy command with version input validation."
+  - "Retried only after failed deploy attempts."
+  - "Kept the solution transparent enough to debug in a terminal."
+---
+
+Some failures do not need a platform rewrite. They need a careful wrapper around the bit that flakes.
+
+The Graph deployment flow can fail when the IPFS endpoint times out. The generated artifacts are valid, the release intent is valid, and the operator mostly needs persistence. The fix was a small script that validates the release version, runs the deploy, and retries on failure until the gateway cooperates.
+
+This is the kind of engineering I like: small, legible, operationally useful, and biased toward getting the team back to the work that matters.

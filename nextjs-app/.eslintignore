@@ -1,2 +1,4 @@
 # Ignoring generated files
-./sanity.types.ts
+.next/
+out/
+node_modules/

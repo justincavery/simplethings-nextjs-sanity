@@ -1,117 +1,132 @@
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import { type PortableTextBlock } from "next-sanity";
-import { Suspense } from "react";
 
-import Avatar from "@/app/components/Avatar";
-import CoverImage from "@/app/components/CoverImage";
-import { MorePosts } from "@/app/components/Posts";
-import PortableText from "@/app/components/PortableText";
-import { sanityFetch } from "@/sanity/lib/live";
-import { postPagesSlugs, postQuery } from "@/sanity/lib/queries";
-import { resolveOpenGraphImage } from "@/sanity/lib/utils";
+import MdxBody from "@/app/components/MdxBody";
+import PostList from "@/app/components/PostList";
+import { absoluteUrl, formatDate, getAllPosts, getPostBySlug, site } from "@/lib/content";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-/**
- * Generate the static params for the page.
- * Learn more: https://nextjs.org/docs/app/api-reference/functions/generate-static-params
- */
-export async function generateStaticParams() {
-  const { data } = await sanityFetch({
-    query: postPagesSlugs,
-    // Use the published perspective in generateStaticParams
-    perspective: "published",
-    stega: false,
-  });
-  return data;
+export function generateStaticParams() {
+  return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
-/**
- * Generate metadata for the page.
- * Learn more: https://nextjs.org/docs/app/api-reference/functions/generate-metadata#generatemetadata-function
- */
-export async function generateMetadata(
-  props: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
-  const { data: post } = await sanityFetch({
-    query: postQuery,
-    params,
-    // Metadata should never contain stega
-    stega: false,
-  });
-  const previousImages = (await parent).openGraph?.images || [];
-  const ogImage = resolveOpenGraphImage(post?.coverImage);
+  const post = getPostBySlug(params.slug);
+
+  if (!post) {
+    return {
+      title: "Post not found",
+    };
+  }
+
+  const image = post.coverImage ? absoluteUrl(post.coverImage) : absoluteUrl("/og/simplethings.svg");
 
   return {
-    authors:
-      post?.author?.firstName && post?.author?.lastName
-        ? [{ name: `${post.author.firstName} ${post.author.lastName}` }]
-        : [],
-    title: post?.title,
-    description: post?.excerpt,
+    authors: post.author ? [{ name: post.author }] : [{ name: site.author.name }],
+    title: post.title,
+    description: post.description,
     openGraph: {
-      images: ogImage ? [ogImage, ...previousImages] : previousImages,
+      type: "article",
+      title: post.title,
+      description: post.description,
+      images: [{ url: image, alt: post.coverAlt || post.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: [image],
     },
   } satisfies Metadata;
 }
 
 export default async function PostPage(props: Props) {
   const params = await props.params;
-  const [{ data: post }] = await Promise.all([
-    sanityFetch({ query: postQuery, params }),
-  ]);
+  const post = getPostBySlug(params.slug);
 
-  if (!post?._id) {
+  if (!post) {
     return notFound();
   }
 
+  const morePosts = getAllPosts().filter((item) => item.slug !== post.slug).slice(0, 2);
+
   return (
     <>
-      <div className="">
-        <div className="container my-12 lg:my-24 grid gap-12">
-          <div>
-            <div className="pb-6 grid gap-6 mb-6 border-b border-gray-100">
-              <div className="max-w-3xl flex flex-col gap-6">
-                <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-7xl">
-                  {post.title}
-                </h2>
-              </div>
-              <div className="max-w-3xl flex gap-4 items-center">
-                {post.author &&
-                  post.author.firstName &&
-                  post.author.lastName && (
-                    <Avatar person={post.author} date={post.date} />
-                  )}
-              </div>
-            </div>
-            <article className="gap-6 grid max-w-4xl">
-              <div className="">
-                <CoverImage image={post.coverImage} priority />
-              </div>
-              {post.content?.length && (
-                <PortableText
-                  className="max-w-2xl"
-                  value={post.content as PortableTextBlock[]}
-                />
-              )}
-            </article>
+      <article>
+        <header className="section-shell">
+          <div className="max-w-4xl">
+            <p className="eyebrow">{formatDate(post.date)}</p>
+            <h1 className="mt-4 text-4xl font-bold tracking-normal text-gray-950 sm:text-6xl lg:text-7xl">
+              {post.title}
+            </h1>
+            {post.description && (
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-gray-600">{post.description}</p>
+            )}
+            <p className="mt-6 text-sm text-gray-500">By {post.author || site.author.name}</p>
           </div>
-        </div>
-      </div>
-      <div className="border-t border-gray-100">
-        <div className="container my-12 lg:my-24 grid gap-12">
-          <aside>
-            <Suspense>
-              <MorePosts skip={post._id} limit={2} />
-            </Suspense>
+        </header>
+
+        {post.coverImage && (
+          <div className="container">
+            <div className="relative aspect-[16/9] overflow-hidden rounded-md border border-gray-100">
+              <Image
+                src={post.coverImage}
+                alt={post.coverAlt || post.title}
+                fill
+                priority
+                sizes="(min-width: 1280px) 1180px, calc(100vw - 4rem)"
+                className="object-cover"
+              />
+            </div>
+          </div>
+        )}
+
+        <div className="container grid gap-12 py-12 lg:grid-cols-[minmax(0,42rem)_18rem] lg:py-16">
+          <MdxBody source={post.body} />
+          <aside className="space-y-6 text-sm">
+            {(post.tweetUrl || post.links.length > 0) && (
+              <div className="rounded-md border border-gray-200 p-5">
+                <h2 className="font-semibold text-gray-950">Linkbacks</h2>
+                <div className="mt-4 grid gap-3">
+                  {post.tweetUrl && (
+                    <a href={post.tweetUrl} className="text-red-500 hover:underline" target="_blank" rel="noreferrer">
+                      Original tweet
+                    </a>
+                  )}
+                  {post.links.map((link) => (
+                    <a key={link.href} href={link.href} className="text-red-500 hover:underline" target="_blank" rel="noreferrer">
+                      {link.title || link.href}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+            {post.socialDraft && (
+              <div className="rounded-md border border-red-100 bg-red-50 p-5">
+                <h2 className="font-semibold text-gray-950">Social version</h2>
+                <p className="mt-3 leading-6 text-gray-700">{post.socialDraft}</p>
+              </div>
+            )}
           </aside>
         </div>
-      </div>
+      </article>
+
+      {morePosts.length > 0 && (
+        <section className="border-t border-gray-100 bg-gray-50">
+          <div className="section-shell">
+            <div className="mb-8">
+              <p className="eyebrow">Keep reading</p>
+              <h2 className="mt-3 text-3xl font-bold tracking-normal text-gray-950">Recent posts</h2>
+            </div>
+            <PostList posts={morePosts} />
+          </div>
+        </section>
+      )}
     </>
   );
 }

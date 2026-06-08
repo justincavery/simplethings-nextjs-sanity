@@ -1,0 +1,35 @@
+---
+title: "Add SSH passphrase once"
+description: "Avoid adding your passphrase multiple times by using ssh-add"
+date: "2024-12-11T11:10:20.842Z"
+author: "Justin Avery"
+coverImage: "/images/posts/add-ssh-passphrase-once.jpg"
+coverAlt: "a man and a woman are sitting in front of a computer screen ."
+tags: []
+tweetUrl: ""
+links: []
+socialDraft: ""
+---
+
+Do you log onto many servers a day and are continuously entering your password over and over again?
+
+Use the following
+
+```shell
+ssh-add
+```
+
+You will then be prompted to enter the passphrase for your key
+
+```shell
+Enter passphrase for /Users/yourUserName/.ssh/id_rsa:
+Identity added: /Users/yourUserName/.ssh/id_rsa
+```
+
+Once completed when you `ssh` into your next server you won't be prompted to add your password again.
+
+This of course means that anyone at your computer can now access your servers without knowing your passphrase, but I'm going to assume that you lock your computer when you leave it un-attended.
+
+I see this as a less risky way of managing your security than entering the password multiple times and having it accidently added to a chat window or seen on a screenshare.
+
+Do what works for you.

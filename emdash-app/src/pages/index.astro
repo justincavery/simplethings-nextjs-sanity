@@ -1,0 +1,44 @@
+---
+import { getEmDashCollection, getEmDashEntry, getSiteSettings } from "emdash";
+import HomeSections from "../components/HomeSections.astro";
+import Base from "../layouts/Base.astro";
+
+const [settings, homeResult, projectsResult, postsResult] = await Promise.all([
+	getSiteSettings(),
+	getEmDashEntry("pages", "home"),
+	getEmDashCollection("projects", { limit: 8 }),
+	getEmDashCollection("posts", { limit: 8 }),
+]);
+
+const home = homeResult.entry;
+const homeData = home?.data as Record<string, any> | undefined;
+const projects = projectsResult.entries;
+const posts = postsResult.entries.sort((a, b) =>
+	String(b.data.date || "").localeCompare(String(a.data.date || "")),
+);
+
+if (Astro.cache?.enabled) Astro.cache.set(projectsResult.cacheHint);
+
+const designParam = Astro.url.searchParams.get("design");
+const designCookie = Astro.cookies.get("design")?.value;
+const activeDesign =
+	designParam === "field" || designParam === "current"
+		? designParam
+		: designCookie === "field"
+			? "field"
+			: "current";
+const showFieldDesign = activeDesign === "field";
+---
+
+<Base
+	title={settings?.title || "Simple Things Limited"}
+	description={settings?.tagline || "Technology consultancy for small teams"}
+>
+	<HomeSections
+		sections={homeData?.sections}
+		edit={home?.edit}
+		projects={projects}
+		posts={posts}
+		showFieldDesign={showFieldDesign}
+	/>
+</Base>

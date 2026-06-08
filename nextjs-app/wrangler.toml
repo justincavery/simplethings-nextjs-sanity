@@ -1,0 +1,13 @@
+name = "simplethings"
+main = "./src/worker.js"
+compatibility_date = "2026-06-04"
+routes = [
+  { pattern = "simplethin.gs/*", zone_name = "simplethin.gs" },
+  { pattern = "www.simplethin.gs/*", zone_name = "simplethin.gs" },
+]
+
+[assets]
+directory = "./out"
+binding = "ASSETS"
+not_found_handling = "404-page"
+run_worker_first = true

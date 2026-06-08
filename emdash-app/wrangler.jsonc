@@ -1,0 +1,33 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "simplethings",
+	"main": "./src/worker.ts",
+	"compatibility_date": "2026-06-04",
+	"compatibility_flags": ["nodejs_compat"],
+	"vars": {
+		"PUBLIC_TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
+	},
+	"routes": [
+		{ "pattern": "simplethin.gs/*", "zone_name": "simplethin.gs" },
+		{ "pattern": "www.simplethin.gs/*", "zone_name": "simplethin.gs" },
+	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "simplethings-cms-prod",
+			"database_id": "21dfde7c-935c-4adf-9fd8-cb9fcbbbef2c",
+		},
+	],
+	"r2_buckets": [
+		{
+			"binding": "MEDIA",
+			"bucket_name": "simplethings-media",
+		},
+	],
+	"kv_namespaces": [
+		{
+			"binding": "SESSION",
+			"id": "5600bbd856844a2ea46b37a7ff0bd66f",
+		},
+	],
+}
