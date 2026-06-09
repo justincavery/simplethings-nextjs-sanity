@@ -2,6 +2,7 @@
 import { PortableText } from "emdash/ui";
 import CodeSnippet from "./CodeSnippet.astro";
 import DemoEmbed from "./DemoEmbed.astro";
+import SafeTable from "./SafeTable.astro";
 
 export interface Props {
 	value?: unknown;
@@ -12,6 +13,7 @@ const components = {
 	type: {
 		code: CodeSnippet,
 		demo: DemoEmbed,
+		table: SafeTable,
 	},
 };
 ---

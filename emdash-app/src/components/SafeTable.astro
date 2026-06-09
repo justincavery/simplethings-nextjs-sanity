@@ -1,0 +1,259 @@
+---
+import { PortableText, emdashComponents } from "emdash/ui";
+
+type Dictionary = Record<string, unknown>;
+
+export interface Props {
+	node?: unknown;
+}
+
+const { node } = Astro.props;
+const table = isDictionary(node) ? node : {};
+const rows = normaliseRows(table.rows);
+const hasHeaderRow = isTruthy(table.hasHeaderRow) && rows.length > 0;
+const headerRow = hasHeaderRow ? rows[0] : null;
+const bodyRows = hasHeaderRow ? rows.slice(1) : rows;
+const visibleBodyRows = bodyRows
+	.map((row, rowIndex) => normaliseCells(row.cells, `r${rowIndex}`))
+	.filter((cells) => cells.length > 0);
+const visibleHeaderCells = headerRow
+	? normaliseCells(headerRow.cells, "header")
+	: [];
+
+if (!visibleHeaderCells.length && !visibleBodyRows.length) {
+	return null;
+}
+
+const cellComponents = { mark: emdashComponents.mark };
+
+function isDictionary(value: unknown): value is Dictionary {
+	return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function isTruthy(value: unknown): boolean {
+	return value === true || value === "true" || value === 1 || value === "1";
+}
+
+function safeKey(value: unknown, fallback: string): string {
+	return typeof value === "string" && value.trim() ? value : fallback;
+}
+
+function normaliseRows(value: unknown): Dictionary[] {
+	if (!Array.isArray(value)) return [];
+	return value.filter(isDictionary);
+}
+
+function normaliseCells(value: unknown, fallbackPrefix: string): Dictionary[] {
+	if (!Array.isArray(value)) return [];
+	const cells: Dictionary[] = [];
+
+	for (const [index, cell] of value.entries()) {
+		if (!isDictionary(cell)) continue;
+		cells.push({
+			...cell,
+			_key: safeKey(cell._key, `${fallbackPrefix}_c${index}`),
+		});
+	}
+
+	return cells;
+}
+
+function normaliseMarkDefs(value: unknown): Dictionary[] {
+	if (!Array.isArray(value)) return [];
+	return value.filter(isDictionary);
+}
+
+function normaliseMarks(value: unknown): string[] {
+	if (!Array.isArray(value)) return [];
+	return value.filter((mark): mark is string => typeof mark === "string");
+}
+
+function normaliseSpan(value: unknown, fallbackKey: string): Dictionary | null {
+	if (typeof value === "string") {
+		return {
+			_type: "span",
+			_key: fallbackKey,
+			text: value,
+			marks: [],
+		};
+	}
+
+	if (!isDictionary(value)) return null;
+
+	return {
+		...value,
+		_type: "span",
+		_key: safeKey(value._key, fallbackKey),
+		text: typeof value.text === "string" ? value.text : "",
+		marks: normaliseMarks(value.marks),
+	};
+}
+
+function normaliseBlock(value: unknown, fallbackKey: string): Dictionary | null {
+	if (!isDictionary(value) || value._type !== "block") return null;
+	const children = Array.isArray(value.children)
+		? value.children
+				.map((child, index) => normaliseSpan(child, `${fallbackKey}_s${index}`))
+				.filter(isDictionary)
+		: [];
+
+	return {
+		...value,
+		_type: "block",
+		_key: safeKey(value._key, fallbackKey),
+		style: typeof value.style === "string" ? value.style : "normal",
+		markDefs: normaliseMarkDefs(value.markDefs),
+		children: children.length
+			? children
+			: [
+					{
+						_type: "span",
+						_key: `${fallbackKey}_empty`,
+						text: "",
+						marks: [],
+					},
+				],
+	};
+}
+
+function cellToBlocks(cell: Dictionary, fallbackKey: string): Dictionary[] {
+	const content = Array.isArray(cell.content) ? cell.content : [];
+	const blockContent = content
+		.map((item, index) => normaliseBlock(item, `${fallbackKey}_b${index}`))
+		.filter(isDictionary);
+
+	if (blockContent.length) return blockContent;
+
+	const spans = content
+		.map((item, index) => normaliseSpan(item, `${fallbackKey}_s${index}`))
+		.filter(isDictionary);
+
+	return [
+		{
+			_type: "block",
+			_key: fallbackKey,
+			style: "normal",
+			markDefs: normaliseMarkDefs(cell.markDefs),
+			children: spans.length
+				? spans
+				: [
+						{
+							_type: "span",
+							_key: `${fallbackKey}_empty`,
+							text: "",
+							marks: [],
+						},
+					],
+		},
+	];
+}
+---
+
+<div class="emdash-table-wrapper" data-safe-table>
+	<table class="emdash-table">
+		{
+			visibleHeaderCells.length > 0 && (
+				<thead>
+					<tr>
+						{visibleHeaderCells.map((cell, cellIndex) => (
+							<th scope="col">
+								<PortableText
+									value={cellToBlocks(cell, `header_c${cellIndex}`) as any}
+									components={cellComponents as any}
+								/>
+							</th>
+						))}
+					</tr>
+				</thead>
+			)
+		}
+		<tbody>
+			{
+				visibleBodyRows.map((cells, rowIndex) => (
+					<tr>
+						{cells.map((cell, cellIndex) => {
+							const blocks = cellToBlocks(cell, `r${rowIndex}_c${cellIndex}`);
+							return isTruthy(cell.isHeader) ? (
+								<th scope="row">
+									<PortableText
+										value={blocks as any}
+										components={cellComponents as any}
+									/>
+								</th>
+							) : (
+								<td>
+									<PortableText
+										value={blocks as any}
+										components={cellComponents as any}
+									/>
+								</td>
+							);
+						})}
+					</tr>
+				))
+			}
+		</tbody>
+	</table>
+</div>
+
+<style>
+	.emdash-table-wrapper {
+		border-top: 2px solid var(--color-text);
+		margin: var(--spacing-xl) 0;
+		max-width: 100%;
+		overflow-x: auto;
+	}
+
+	.emdash-table {
+		border-collapse: collapse;
+		font-size: 0.95rem;
+		line-height: 1.55;
+		min-width: min(42rem, 100%);
+		width: 100%;
+	}
+
+	.emdash-table th,
+	.emdash-table td {
+		border-bottom: 1px solid var(--color-border);
+		padding: 0.85rem 1rem;
+		text-align: left;
+		vertical-align: top;
+	}
+
+	.emdash-table th {
+		background: var(--color-surface);
+		color: var(--color-accent);
+		font-weight: 800;
+	}
+
+	.emdash-table thead th {
+		border-bottom-color: var(--color-text);
+		font-size: 0.78rem;
+		text-transform: uppercase;
+	}
+
+	.emdash-table tbody tr:hover {
+		background: color-mix(in srgb, var(--color-accent) 7%, transparent);
+	}
+
+	.emdash-table th :global(p),
+	.emdash-table td :global(p) {
+		margin: 0;
+	}
+
+	.emdash-table th :global(p + p),
+	.emdash-table td :global(p + p) {
+		margin-top: 0.55rem;
+	}
+
+	@media (max-width: 640px) {
+		.emdash-table {
+			min-width: 36rem;
+		}
+
+		.emdash-table th,
+		.emdash-table td {
+			padding: 0.75rem;
+		}
+	}
+</style>
