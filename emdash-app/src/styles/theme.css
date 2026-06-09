@@ -122,35 +122,47 @@ html[data-design="field"] .nav-links a {
 	align-items: center;
 	align-self: stretch;
 	border-right: 1px solid var(--color-border);
-	color: var(--color-text);
+	color: var(--color-muted);
 	display: inline-flex;
 	font-size: 0.8125rem;
 	font-weight: 700;
 	padding: 0 0.9rem;
+	position: relative;
 	text-transform: uppercase;
+	transition:
+		background-color var(--transition-fast),
+		color var(--transition-fast);
 }
 
-html[data-design="field"] .nav-links a:hover {
-	background: var(--color-text);
-	color: var(--color-bg);
-}
-
-html[data-design="field"] .design-switcher {
-	align-self: center;
-	background: var(--color-bg);
-	border-color: var(--color-text);
-	margin-left: var(--spacing-md);
-}
-
-html[data-design="field"] .design-option {
-	font-size: 0.75rem;
-	font-weight: 800;
-	text-transform: uppercase;
-}
-
-html[data-design="field"] .design-option.active {
+html[data-design="field"] .nav-links a::after {
 	background: var(--color-accent);
-	color: #ffffff;
+	bottom: 0;
+	content: "";
+	height: 4px;
+	left: 0.9rem;
+	position: absolute;
+	right: 0.9rem;
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform var(--transition-fast);
+}
+
+html[data-design="field"] .nav-links a:hover,
+html[data-design="field"] .nav-links a:focus-visible {
+	background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+	color: var(--color-text);
+	outline: 0;
+}
+
+html[data-design="field"] .nav-links a:hover::after,
+html[data-design="field"] .nav-links a:focus-visible::after {
+	transform: scaleX(1);
+}
+
+html.dark[data-design="field"] .nav-links a:hover,
+html.dark[data-design="field"] .nav-links a:focus-visible {
+	background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+	color: var(--color-text);
 }
 
 html[data-design="field"] main {
@@ -788,10 +800,6 @@ html[data-design="field"] button {
 	html[data-design="field"] .nav-links {
 		gap: var(--spacing-md);
 		justify-content: center;
-		margin-left: 0;
-	}
-
-	html[data-design="field"] .design-switcher {
 		margin-left: 0;
 	}
 

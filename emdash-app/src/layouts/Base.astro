@@ -31,15 +31,6 @@ const siteLogo = (settings?.logo as any)?.url ? settings.logo as
 
 const menu = await getMenu("primary");
 
-const designParam = Astro.url.searchParams.get("design");
-const designCookie = Astro.cookies.get("design")?.value;
-const activeDesign =
-	designParam === "field" || designParam === "current"
-		? designParam
-		: designCookie === "field"
-			? "field"
-			: "current";
-
 const pageCtx = createPublicPageContext({
 	Astro,
 		kind: "custom",
@@ -53,16 +44,10 @@ const pageCtx = createPublicPageContext({
 	siteName: siteTitle,
 	siteUrl: origin,
 });
-
-function designHref(design: "current" | "field") {
-	const next = new URL(Astro.url);
-	next.searchParams.set("design", design);
-	return `${next.pathname}${next.search}`;
-}
 ---
 
 <!doctype html>
-<html lang="en" data-design={activeDesign}>
+<html lang="en" data-design="field">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -106,22 +91,6 @@ function designHref(design: "current" | "field") {
 							</a>
 						))
 					}
-				</div>
-				<div class="design-switcher" aria-label="Design version">
-					<a
-						href={designHref("current")}
-						class:list={["design-option", { active: activeDesign === "current" }]}
-						aria-current={activeDesign === "current" ? "true" : undefined}
-					>
-						Current
-					</a>
-					<a
-						href={designHref("field")}
-						class:list={["design-option", { active: activeDesign === "field" }]}
-						aria-current={activeDesign === "field" ? "true" : undefined}
-					>
-						Field
-					</a>
 				</div>
 			</nav>
 		</header>
@@ -404,29 +373,6 @@ function designHref(design: "current" | "field") {
 
 			.nav-links a:empty {
 				display: none;
-			}
-
-			.design-switcher {
-				align-items: center;
-				border: 1px solid var(--color-border);
-				border-radius: var(--radius);
-				display: inline-flex;
-				flex: 0 0 auto;
-				font-size: var(--font-size-sm);
-				padding: 2px;
-			}
-
-			.design-option {
-				border-radius: calc(var(--radius) - 2px);
-				color: var(--color-muted);
-				line-height: 1;
-				padding: 0.45rem 0.55rem;
-				text-decoration: none;
-			}
-
-			.design-option.active {
-				background: var(--color-text);
-				color: var(--color-bg);
 			}
 
 			main {
