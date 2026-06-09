@@ -1,10 +1,14 @@
 import { elements } from "@emdash-cms/blocks";
-import { definePlugin } from "emdash";
 
 export function createPlugin() {
-	return definePlugin({
+	return {
 		id: "simplethings-content-blocks",
 		version: "0.1.0",
+		capabilities: [],
+		allowedHosts: [],
+		storage: {},
+		hooks: {},
+		routes: {},
 		admin: {
 			portableTextBlocks: [
 				{
@@ -43,7 +47,7 @@ export function createPlugin() {
 				},
 			],
 		},
-	});
+	};
 }
 
 export default createPlugin;
