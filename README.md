@@ -8,8 +8,6 @@ Business website for [Simple Things Limited](https://simplethin.gs), rebuilt on 
 - `emdash-app/seed/seed.json` - migrated content, collections, fields, menus, and redirects
 - `emdash-app/src/pages/` - public pages and API routes
 - `emdash-app/wrangler.jsonc` - Worker routes, D1, R2, KV, and public Turnstile config
-- `scripts/generate-emdash-seed.mjs` - migration seed generator from local content
-- `nextjs-app/` - retained migration/reference app while the Cloudflare cutover finishes
 
 ## Local Development
 

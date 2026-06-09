@@ -15,7 +15,6 @@
 		"review:worker": "astro build && wrangler dev --config dist/server/wrangler.json --local --port 8787",
 		"deploy": "astro build && wrangler deploy",
 		"cms:homepage-sections": "node scripts/update-homepage-sections-schema.mjs",
-		"seed:migrate": "node ../scripts/generate-emdash-seed.mjs",
 		"typecheck": "astro check"
 	},
   "dependencies": {
