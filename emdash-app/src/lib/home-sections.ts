@@ -41,12 +41,12 @@ const sectionTypes = new Set<HomeSectionKind>([
 ]);
 
 export const defaultServicesText = [
-	"Architecture and technical direction | CTO-style support for platform choices, delivery planning, vendor decisions, and readable technical strategy.",
-	"Automation and modernisation | CMS migrations, publishing workflows, practical automation, and platform moves with fewer moving parts.",
-	"APIs, indexing and data platforms | Resilient APIs, search and indexing systems, blockchain data flows, and product-ready integration layers.",
-	"DevOps, servers and reliability | CI/CD, observability, deployments, server configuration, automation, and infrastructure made boring enough to trust.",
-	"Web platforms and CMS publishing | Fast sites, practical editing flows, content models, and publishing tools that are pleasant to use.",
-	"Performance and edge-ready systems | Performance optimisation, caching strategy, modern hosting, and fast delivery paths close to users.",
+	"Technical architecture and direction | CTO-style support for platform choices, delivery planning, vendor decisions, and readable technical strategy. | /services/technical-architecture",
+	"CI/CD, DevOps and reliability | CI/CD, observability, deployments, server configuration, automation, and infrastructure made boring enough to trust. | /services/devops-ci-cd",
+	"Performance and cost optimisation | Performance optimisation, cloud cost control, caching strategy, and faster delivery paths close to users. | /services/performance-cost-optimisation",
+	"Replatforming and modernisation | CMS migrations, platform moves, hosting changes, and modernisation with fewer moving parts. | /services/replatforming-modernisation",
+	"AI process improvement | End-to-end workflow improvement and practical AI integration that supports teams rather than threatening jobs. | /services/ai-process-improvement",
+	"Web platforms and CMS publishing | Fast sites, practical editing flows, content models, and publishing tools that are pleasant to use. | /services/web-platforms-cms",
 ].join("\n");
 
 export const defaultFieldNotesText = [
@@ -67,7 +67,7 @@ export const defaultHomeSections: HomeSection[] = [
 		eyebrow: "Independent technology consultancy",
 		title: "Empowering your business through technology.",
 		summary:
-			"I help teams design, modernise, and ship web platforms: practical automation, CMS migrations, resilient APIs, indexing, DevOps, performance optimisation, and edge-ready infrastructure.",
+			"I help teams design, modernise, and ship better platforms: technical architecture, DevOps, CI/CD, performance, replatforming, and practical AI process improvement.",
 		primary_label: "Services",
 		primary_url: "/services",
 		secondary_label: "Selected work",

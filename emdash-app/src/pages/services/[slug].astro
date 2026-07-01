@@ -1,0 +1,272 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getServicePage, servicePages } from "../../lib/services";
+
+const service = getServicePage(Astro.params.slug);
+if (!service) return Astro.redirect("/404");
+
+const relatedServices = servicePages.filter((item) => item.slug !== service.slug).slice(0, 3);
+---
+
+<Base
+	title={service.title}
+	description={service.description}
+	canonical={`/services/${service.slug}`}
+>
+	<article class="service-page">
+		<header class="service-hero">
+			<a href="/services" class="back">Services</a>
+			<p class="eyebrow">{service.eyebrow}</p>
+			<h1>{service.title}</h1>
+			<p class="lede">{service.lede}</p>
+		</header>
+
+		<section class="intro">
+			<p>{service.intro}</p>
+		</section>
+
+		<div class="service-grid">
+			<section>
+				<h2>Best fit</h2>
+				<ul>
+					{service.bestFor.map((item) => <li>{item}</li>)}
+				</ul>
+			</section>
+			<section>
+				<h2>Useful outcomes</h2>
+				<ul>
+					{service.outcomes.map((item) => <li>{item}</li>)}
+				</ul>
+			</section>
+			<section>
+				<h2>How I work</h2>
+				<ul>
+					{service.approach.map((item) => <li>{item}</li>)}
+				</ul>
+			</section>
+		</div>
+
+		<section class="search-context">
+			<h2>Common ways this shows up</h2>
+			<div class="keywords">
+				{service.related.map((item) => <span>{item}</span>)}
+			</div>
+		</section>
+
+		<section class="service-cta">
+			<div>
+				<p class="eyebrow">Next step</p>
+				<h2>Need this kind of help?</h2>
+				<p>
+					Send over the situation, the constraint, or the process that feels stuck.
+					I can help shape the next practical move.
+				</p>
+			</div>
+			<a href="/contact">Start a conversation</a>
+		</section>
+
+		<section class="related-services" aria-label="Related services">
+			<div class="section-head">
+				<h2>Related consultancy work</h2>
+				<a href="/services">All services</a>
+			</div>
+			<div class="related-grid">
+				{relatedServices.map((item) => (
+					<a href={`/services/${item.slug}`}>
+						<span>{item.eyebrow}</span>
+						<strong>{item.shortTitle}</strong>
+						<p>{item.description}</p>
+					</a>
+				))}
+			</div>
+		</section>
+	</article>
+</Base>
+
+<style>
+	.service-page {
+		max-width: var(--wide-width);
+		margin: 0 auto;
+		padding: var(--spacing-4xl) var(--spacing-lg);
+	}
+
+	.service-hero,
+	.intro,
+	.search-context {
+		max-width: var(--max-width);
+	}
+
+	.back {
+		color: var(--color-muted);
+		font-size: var(--font-size-sm);
+		text-decoration: none;
+	}
+
+	.eyebrow {
+		color: var(--color-accent);
+		font-size: var(--font-size-sm);
+		font-weight: 800;
+		margin-bottom: var(--spacing-md);
+		text-transform: uppercase;
+	}
+
+	.service-hero .eyebrow {
+		margin-top: var(--spacing-xl);
+	}
+
+	h1 {
+		font-size: var(--font-size-4xl);
+		line-height: 1.04;
+		margin-bottom: var(--spacing-lg);
+	}
+
+	.lede,
+	.intro p,
+	.service-cta p,
+	.related-grid p {
+		color: var(--color-muted);
+		line-height: 1.65;
+	}
+
+	.lede {
+		font-size: var(--font-size-xl);
+	}
+
+	.intro {
+		border-top: 1px solid var(--color-border);
+		margin-top: var(--spacing-2xl);
+		padding-top: var(--spacing-xl);
+	}
+
+	.intro p {
+		font-size: var(--font-size-lg);
+	}
+
+	.service-grid {
+		display: grid;
+		gap: var(--spacing-lg);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		margin: var(--spacing-2xl) 0;
+	}
+
+	.service-grid section,
+	.related-grid a {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		padding: var(--spacing-lg);
+	}
+
+	.service-grid h2 {
+		font-size: var(--font-size-lg);
+		margin-bottom: var(--spacing-md);
+	}
+
+	.service-grid ul {
+		margin-left: 1.1rem;
+	}
+
+	.service-grid li {
+		color: var(--color-muted);
+		line-height: 1.6;
+		margin-bottom: var(--spacing-sm);
+	}
+
+	.search-context {
+		border-top: 1px solid var(--color-border);
+		padding-top: var(--spacing-xl);
+	}
+
+	.search-context h2 {
+		font-size: var(--font-size-xl);
+		margin-bottom: var(--spacing-md);
+	}
+
+	.keywords {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-sm);
+	}
+
+	.keywords span {
+		border: 1px solid var(--color-border);
+		color: var(--color-muted);
+		padding: 0.4rem 0.55rem;
+	}
+
+	.service-cta {
+		align-items: center;
+		border-top: 2px solid var(--color-text);
+		display: grid;
+		gap: var(--spacing-xl);
+		grid-template-columns: minmax(0, 1fr) auto;
+		margin: var(--spacing-3xl) 0;
+		padding-top: var(--spacing-xl);
+	}
+
+	.service-cta h2 {
+		font-size: var(--font-size-2xl);
+		margin-bottom: var(--spacing-sm);
+	}
+
+	.service-cta a {
+		background: var(--color-text);
+		color: var(--color-bg);
+		font-weight: 800;
+		padding: 0.85rem 1rem;
+		text-decoration: none;
+	}
+
+	.section-head {
+		align-items: end;
+		border-bottom: 1px solid var(--color-border);
+		display: flex;
+		gap: var(--spacing-lg);
+		justify-content: space-between;
+		margin-bottom: var(--spacing-lg);
+		padding-bottom: var(--spacing-md);
+	}
+
+	.section-head h2 {
+		font-size: var(--font-size-xl);
+	}
+
+	.section-head a,
+	.related-grid a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.related-grid {
+		display: grid;
+		gap: var(--spacing-lg);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.related-grid span {
+		color: var(--color-accent);
+		display: block;
+		font-size: var(--font-size-sm);
+		font-weight: 800;
+		margin-bottom: var(--spacing-sm);
+		text-transform: uppercase;
+	}
+
+	.related-grid strong {
+		display: block;
+		font-size: var(--font-size-lg);
+		margin-bottom: var(--spacing-sm);
+	}
+
+	@media (max-width: 860px) {
+		.service-grid,
+		.related-grid,
+		.service-cta {
+			grid-template-columns: 1fr;
+		}
+
+		.service-cta a {
+			justify-self: start;
+		}
+	}
+</style>

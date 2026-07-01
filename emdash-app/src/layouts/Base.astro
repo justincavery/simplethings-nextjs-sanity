@@ -28,6 +28,8 @@ const imageHref = image
 	: ogImageFor(Astro.url, settings?.url, "/og/site.png");
 const siteLogo = (settings?.logo as any)?.url ? settings.logo as
 	{ mediaId: string; alt?: string; url: string } : null;
+const brandLogoLight = "/images/brand/simple-things/logo/lockup-light.svg";
+const brandLogoDark = "/images/brand/simple-things/logo/lockup-dark.svg";
 
 const menu = await getMenu("primary");
 
@@ -51,15 +53,73 @@ const pageCtx = createPublicPageContext({
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="theme-color" content="#e6332a" />
 		<title>{fullTitle}</title>
 		<EmDashHead page={pageCtx} />
 		<Font cssVariable="--font-sans" preload />
+		<link rel="icon" href="/favicon.ico" sizes="any" />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" />
+		<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
+		<link rel="icon" href="/favicon-48x48.png" sizes="48x48" type="image/png" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/site.webmanifest" />
 		<link
 			rel="alternate"
 			type="application/rss+xml"
 			title={`${siteTitle} RSS Feed`}
 			href="/rss.xml"
 		/>
+		<script
+			is:inline
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=G-HRTCZTGMYF"
+		></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			window.gtag = window.gtag || function () {
+				window.dataLayer.push(arguments);
+			};
+			window.gtag("js", new Date());
+
+			window.gtag("config", "G-HRTCZTGMYF");
+		</script>
+		<script is:inline>
+			(function () {
+				function track(name, params) {
+					if (typeof window.gtag !== "function") return;
+					window.gtag("event", name, params || {});
+				}
+
+				window.simpleThingsTrack = track;
+
+				document.addEventListener("click", function (event) {
+					var target = event.target;
+					if (!target || typeof target.closest !== "function") return;
+
+					var link = target.closest("a[href]");
+					if (!link) return;
+
+					var href = link.getAttribute("href");
+					if (!href) return;
+
+					var url;
+					try {
+						url = new URL(href, window.location.href);
+					} catch (error) {
+						return;
+					}
+
+					if (url.origin !== window.location.origin || url.pathname !== "/contact") return;
+
+					track("contact_click", {
+						link_text: (link.textContent || "").trim().slice(0, 100),
+						link_url: url.href,
+						page_location: window.location.href,
+					});
+				});
+			})();
+		</script>
 		<script is:inline>
 			// Apply theme immediately to prevent flash
 			(function () {
@@ -80,7 +140,12 @@ const pageCtx = createPublicPageContext({
 				<a href="/" class="site-title">
 					{siteLogo
 						? <img src={siteLogo.url} alt={siteLogo.alt || siteTitle} class="site-logo-img" />
-						: siteTitle
+						: (
+							<>
+								<img src={brandLogoLight} alt={siteTitle} width="348" height="80" class="site-logo-img brand-logo-light" />
+								<img src={brandLogoDark} alt={siteTitle} width="348" height="80" class="site-logo-img brand-logo-dark" />
+							</>
+						)
 					}
 				</a>
 				<div class="nav-links">
@@ -105,7 +170,12 @@ const pageCtx = createPublicPageContext({
 					<span class="footer-logo">
 						{siteLogo
 							? <img src={siteLogo.url} alt={siteLogo.alt || siteTitle} class="footer-logo-img" />
-							: siteTitle
+							: (
+								<>
+									<img src={brandLogoLight} alt={siteTitle} width="348" height="80" class="footer-logo-img brand-logo-light" />
+									<img src={brandLogoDark} alt={siteTitle} width="348" height="80" class="footer-logo-img brand-logo-dark" />
+								</>
+							)
 						}
 					</span>
 					<p class="footer-tagline">
@@ -348,10 +418,34 @@ const pageCtx = createPublicPageContext({
 			}
 
 			.site-logo-img {
-				height: 48px;
-				width: auto;
 				display: block;
-				margin: -8px 0;
+				height: 44px;
+				margin: -6px 0;
+				max-width: min(52vw, 220px);
+				object-fit: contain;
+				width: auto;
+			}
+
+			.brand-logo-dark {
+				display: none;
+			}
+
+			:root.dark .brand-logo-light {
+				display: none;
+			}
+
+			:root.dark .brand-logo-dark {
+				display: block;
+			}
+
+			@media (prefers-color-scheme: dark) {
+				:root:not(.light) .brand-logo-light {
+					display: none;
+				}
+
+				:root:not(.light) .brand-logo-dark {
+					display: block;
+				}
 			}
 
 			.nav-links {
@@ -393,13 +487,16 @@ const pageCtx = createPublicPageContext({
 			}
 
 			.footer-logo {
+				display: inline-flex;
 				font-family: var(--font-serif);
 				font-size: var(--font-size-lg);
 				font-weight: 600;
 			}
 
 			.footer-logo-img {
-				height: 24px;
+				height: 28px;
+				max-width: 190px;
+				object-fit: contain;
 				width: auto;
 			}
 

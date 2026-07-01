@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+	<title>Diagonal messy to straight</title>
+	
+	<rect width="64" height="64" rx="12" fill="#fbfbfa"/>
+	<path d="M9 49 C14 24 19 60 23 40 C27 18 31 50 35 31 C39 13 43 40 47 24 C51 14 54 18 57 15" fill="none" stroke="#171412" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
+	<path d="M9 49 L57 15" fill="none" stroke="#e6332a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+	<circle cx="9" cy="49" r="4" fill="#171412" opacity="1"/>
+	<circle cx="57" cy="15" r="4" fill="#e6332a" opacity="1"/>
+	
+</svg>

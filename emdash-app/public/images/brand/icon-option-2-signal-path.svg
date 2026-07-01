@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+	<title>Simple Things signal path</title>
+	<rect width="64" height="64" rx="12" fill="#fbfbfa"/>
+	<path d="M10 48h10l9-23h11l6-9h8" fill="none" stroke="#171412" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/>
+	<path d="M10 48h10l9-23h11l6-9h8" fill="none" stroke="#e6332a" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+	<circle cx="10" cy="48" r="5" fill="#e6332a"/>
+	<circle cx="29" cy="25" r="5" fill="#ffb000"/>
+	<circle cx="54" cy="16" r="5" fill="#e6332a"/>
+</svg>

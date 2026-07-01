@@ -1,5 +1,6 @@
 ---
 import { getEmDashCollection } from "emdash";
+import { dateTimeAttribute, formatDisplayDate } from "../../lib/dates";
 import Base from "../../layouts/Base.astro";
 
 const { entries, cacheHint } = await getEmDashCollection("posts");
@@ -8,7 +9,11 @@ const posts = entries.sort((a, b) => String(b.data.date || "").localeCompare(Str
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 ---
 
-<Base title="Blog" description="Writing from Simple Things">
+<Base
+	title="Technical Notes and Consultancy Writing"
+	description="Technical notes on architecture, DevOps, CI/CD, performance, replatforming, Cloudflare, CMS work, and practical AI process improvement."
+	canonical="/blog"
+>
 	<section class="archive">
 		<header>
 			<h1>Blog</h1>
@@ -17,7 +22,9 @@ if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 		<div class="posts">
 			{posts.map((post) => (
 				<a href={`/posts/${post.id}`} class="post">
-					<span>{post.data.date}</span>
+					<time datetime={dateTimeAttribute(post.data.date)}>
+						{formatDisplayDate(post.data.date)}
+					</time>
 					<h2>{post.data.title}</h2>
 					<p>{post.data.excerpt}</p>
 				</a>
@@ -57,7 +64,7 @@ if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 		text-decoration: none;
 	}
 
-	.post span {
+	.post time {
 		color: var(--color-muted);
 		font-size: var(--font-size-sm);
 	}

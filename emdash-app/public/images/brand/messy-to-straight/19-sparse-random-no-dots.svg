@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+	<title>Sparse random messy field with no dots</title>
+	
+	<rect width="64" height="64" rx="12" fill="#fbfbfa"/>
+	<path d="M-4 18 C8 8 13 35 25 20 C35 7 42 33 55 20 C61 14 65 15 70 18" fill="none" stroke="#171412" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" opacity="0.42"/>
+	<path d="M-6 37 C5 51 14 21 25 37 C35 52 42 24 54 39 C62 49 67 45 71 41" fill="none" stroke="#171412" stroke-width="1.02" stroke-linecap="round" stroke-linejoin="round" opacity="0.38"/>
+	<path d="M9 -2 C17 14 8 27 21 38 C33 48 25 56 35 68" fill="none" stroke="#171412" stroke-width="1.1400000000000001" stroke-linecap="round" stroke-linejoin="round" opacity="0.33999999999999997"/>
+	<path d="M57 -5 C47 11 57 25 44 36 C31 47 38 56 27 69" fill="none" stroke="#171412" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"/>
+	<path d="M10 34 L56 32" fill="none" stroke="#e6332a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+	
+</svg>

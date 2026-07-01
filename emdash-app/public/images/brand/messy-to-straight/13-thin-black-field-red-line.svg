@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+	<title>Thin black messy field with red line</title>
+	
+	<rect width="64" height="64" rx="12" fill="#fbfbfa"/>
+	<path d="M-3 13 C10 2 18 28 30 14 C42 1 50 27 68 10" fill="none" stroke="#171412" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
+	<path d="M-5 24 C9 47 18 5 29 25 C41 48 50 9 69 29" fill="none" stroke="#171412" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
+	<path d="M-4 37 C8 17 20 58 31 36 C43 12 52 53 68 34" fill="none" stroke="#171412" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
+	<path d="M-3 50 C15 31 25 65 39 45 C51 28 58 50 69 43" fill="none" stroke="#171412" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
+	<path d="M10 34 L56 32" fill="none" stroke="#e6332a" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+	<circle cx="10" cy="34" r="4" fill="#171412" opacity="1"/>
+	<circle cx="56" cy="32" r="4" fill="#e6332a" opacity="1"/>
+	
+</svg>

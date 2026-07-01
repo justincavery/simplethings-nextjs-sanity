@@ -8,6 +8,7 @@ import {
 	parseSectionItems,
 	type HomeSection,
 } from "../lib/home-sections";
+import { dateTimeAttribute, formatDisplayDate } from "../lib/dates";
 
 type EntryLike = {
 	id: string;
@@ -47,6 +48,24 @@ function actionPair(section: HomeSection) {
 		{ label: section.primary_label, url: section.primary_url, primary: true },
 		{ label: section.secondary_label, url: section.secondary_url, primary: false },
 	].filter((action) => action.label && action.url);
+}
+
+const serviceUrlByTitle: Record<string, string> = {
+	"architecture and technical direction": "/services/technical-architecture",
+	"technical architecture and direction": "/services/technical-architecture",
+	"automation and modernisation": "/services/replatforming-modernisation",
+	"replatforming and modernisation": "/services/replatforming-modernisation",
+	"apis, indexing and data platforms": "/services/web-platforms-cms",
+	"devops, servers and reliability": "/services/devops-ci-cd",
+	"ci/cd, devops and reliability": "/services/devops-ci-cd",
+	"web platforms and cms publishing": "/services/web-platforms-cms",
+	"performance and edge-ready systems": "/services/performance-cost-optimisation",
+	"performance and cost optimisation": "/services/performance-cost-optimisation",
+	"ai process improvement": "/services/ai-process-improvement",
+};
+
+function serviceItemUrl(item: { title: string; url?: string }) {
+	return item.url || serviceUrlByTitle[item.title.toLowerCase()] || "";
 }
 ---
 
@@ -117,8 +136,17 @@ function actionPair(section: HomeSection) {
 					<div class="service-grid">
 						{sectionItems(section).map((item) => (
 							<article class="service-item">
-								<h3>{item.title}</h3>
-								{item.summary && <p>{item.summary}</p>}
+								{serviceItemUrl(item) ? (
+									<a href={serviceItemUrl(item)}>
+										<h3>{item.title}</h3>
+										{item.summary && <p>{item.summary}</p>}
+									</a>
+								) : (
+									<>
+										<h3>{item.title}</h3>
+										{item.summary && <p>{item.summary}</p>}
+									</>
+								)}
 							</article>
 						))}
 					</div>
@@ -157,7 +185,9 @@ function actionPair(section: HomeSection) {
 					<div class="post-list">
 						{limited(posts, section).map((post) => (
 							<a href={`/posts/${post.id}`} class="post-row">
-								<span>{post.data.date}</span>
+								<time datetime={dateTimeAttribute(post.data.date)}>
+									{formatDisplayDate(post.data.date)}
+								</time>
 								<strong>{post.data.title}</strong>
 								<p>{post.data.excerpt}</p>
 							</a>
@@ -276,6 +306,7 @@ function actionPair(section: HomeSection) {
 	}
 
 	.section-head a,
+	.service-item a,
 	.post-row,
 	.card a {
 		color: inherit;
@@ -347,7 +378,7 @@ function actionPair(section: HomeSection) {
 	}
 
 	.card span,
-	.post-row span {
+	.post-row time {
 		color: var(--color-muted);
 		font-size: var(--font-size-sm);
 	}

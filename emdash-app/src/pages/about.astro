@@ -7,7 +7,11 @@ const { entry: page, cacheHint } = await getEmDashEntry("pages", "about");
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 ---
 
-<Base title="About" description="About Simple Things Limited">
+<Base
+	title="About"
+	description="Simple Things is Justin Avery's technical architecture and engineering consultancy for platforms, DevOps, performance, replatforming, and practical AI adoption."
+	canonical="/about"
+>
 	<article class="page">
 		<div class="content" {...page?.edit?.content}>
 			{page?.data?.content ? <ContentRenderer value={page.data.content} /> : <p>Content coming soon.</p>}

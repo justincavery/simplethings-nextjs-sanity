@@ -9,6 +9,7 @@ import {
 	entrySeoTitle,
 	ogImageFor,
 } from "../../lib/seo";
+import { dateTimeAttribute, formatDisplayDate } from "../../lib/dates";
 import ContentRenderer from "../../components/ContentRenderer.astro";
 import Base from "../../layouts/Base.astro";
 
@@ -38,7 +39,9 @@ const canonical = entrySeoCanonical(seo) || `/posts/${post.id}`;
 	<article class="post post-detail">
 		<header>
 			<a href="/blog" class="back">Blog</a>
-			<p>{data.date}</p>
+			<p>
+				<time datetime={dateTimeAttribute(data.date)}>{formatDisplayDate(data.date)}</time>
+			</p>
 			<h1 {...post.edit.title}>{data.title}</h1>
 			{data.excerpt && <p class="excerpt" {...post.edit.excerpt}>{data.excerpt}</p>}
 		</header>
@@ -46,6 +49,15 @@ const canonical = entrySeoCanonical(seo) || `/posts/${post.id}`;
 		<div class="content" {...post.edit.content}>
 			<ContentRenderer value={data.content} />
 		</div>
+		<section class="post-cta">
+			<p class="eyebrow">Need help with something similar?</p>
+			<h2>Turn the rough edge into a simpler system.</h2>
+			<p>
+				I help teams with technical architecture, DevOps, CI/CD, performance,
+				replatforming, and practical AI process improvement.
+			</p>
+			<a href="/contact">Start a conversation</a>
+		</section>
 	</article>
 </Base>
 
@@ -108,4 +120,39 @@ const canonical = entrySeoCanonical(seo) || `/posts/${post.id}`;
 		margin: var(--spacing-2xl) 0 var(--spacing-md);
 	}
 
+	.post-cta {
+		border-top: 2px solid var(--color-text);
+		margin-top: var(--spacing-3xl);
+		padding-top: var(--spacing-xl);
+	}
+
+	.post-cta .eyebrow {
+		color: var(--color-accent);
+		font-size: var(--font-size-sm);
+		font-weight: 800;
+		margin-bottom: var(--spacing-md);
+		text-transform: uppercase;
+	}
+
+	.post-cta h2 {
+		font-size: var(--font-size-2xl);
+		line-height: 1.15;
+		margin-bottom: var(--spacing-sm);
+	}
+
+	.post-cta p:not(.eyebrow) {
+		color: var(--color-muted);
+		font-size: var(--font-size-lg);
+		line-height: 1.65;
+		margin-bottom: var(--spacing-lg);
+	}
+
+	.post-cta a {
+		background: var(--color-text);
+		color: var(--color-bg);
+		display: inline-flex;
+		font-weight: 800;
+		padding: 0.85rem 1rem;
+		text-decoration: none;
+	}
 </style>

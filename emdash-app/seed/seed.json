@@ -499,13 +499,13 @@
 						{
 							"type": "hero",
 							"eyebrow": "Independent technology consultancy",
-							"title": "Empowering your business through technology.",
-							"summary": "I help teams design, modernise, and ship web platforms: practical automation, CMS migrations, resilient APIs, indexing, DevOps, performance optimisation, and edge-ready infrastructure.",
+							"title": "Technical architecture for calmer, faster delivery.",
+							"summary": "I help teams improve platforms, CI/CD, DevOps, performance, replatforming, CMS workflows, and end-to-end processes with practical AI where it genuinely helps.",
 							"primary_label": "Services",
 							"primary_url": "/services",
 							"secondary_label": "Selected work",
 							"secondary_url": "/projects",
-							"items": "Best fit | Small teams with messy platforms, migrations, brittle infra, or unclear technical choices.\nMethod | Trace the failure path, simplify the surface area, document the trade-offs, leave the team stronger.\nBias | Fast platforms, boring automation, readable docs, fewer moving parts.",
+							"items": "Best fit | Small teams, scale-ups, and larger organisations with messy platforms, brittle delivery paths, unclear architecture, or expensive infrastructure.\nMethod | Trace the failure path, simplify the surface area, document the trade-offs, leave the team stronger.\nBias | Clear technical architecture, useful automation, faster delivery, careful AI adoption, and fewer moving parts.",
 							"variant": "field"
 						},
 						{
@@ -519,7 +519,7 @@
 							"title": "What I help with",
 							"primary_label": "View services",
 							"primary_url": "/services",
-							"items": "Architecture and technical direction | CTO-style support for platform choices, delivery planning, vendor decisions, and readable technical strategy.\nAutomation and modernisation | CMS migrations, publishing workflows, practical automation, and platform moves with fewer moving parts.\nAPIs, indexing and data platforms | Resilient APIs, search and indexing systems, blockchain data flows, and product-ready integration layers.\nDevOps, servers and reliability | CI/CD, observability, deployments, server configuration, automation, and infrastructure made boring enough to trust.\nWeb platforms and CMS publishing | Fast sites, practical editing flows, content models, and publishing tools that are pleasant to use.\nPerformance and edge-ready systems | Performance optimisation, caching strategy, modern hosting, and fast delivery paths close to users."
+							"items": "Technical architecture and direction | CTO-style support for platform choices, delivery planning, vendor decisions, and readable technical strategy. | /services/technical-architecture\nCI/CD, DevOps and reliability | CI/CD, observability, deployments, server configuration, automation, and infrastructure made boring enough to trust. | /services/devops-ci-cd\nPerformance and cost optimisation | Performance optimisation, cloud cost control, caching strategy, and faster delivery paths close to users. | /services/performance-cost-optimisation\nReplatforming and modernisation | CMS migrations, platform moves, hosting changes, and modernisation with fewer moving parts. | /services/replatforming-modernisation\nAI process improvement | End-to-end workflow improvement and practical AI integration that supports teams rather than threatening jobs. | /services/ai-process-improvement\nWeb platforms and CMS publishing | Fast sites, practical editing flows, content models, and publishing tools that are pleasant to use. | /services/web-platforms-cms"
 						},
 						{
 							"type": "projects",
@@ -622,7 +622,7 @@
 								{
 									"_type": "span",
 									"_key": "k5g",
-									"text": "Services",
+									"text": "Technical architecture and consultancy services",
 									"marks": []
 								}
 							]
@@ -636,7 +636,7 @@
 								{
 									"_type": "span",
 									"_key": "k47s",
-									"text": "Calm senior engineering for teams building faster web platforms, cleaner CMS workflows, practical automation, resilient APIs, search/indexing systems, DevOps foundations, and performance-focused infrastructure.",
+									"text": "Calm senior engineering and technical architecture for teams improving CI/CD, DevOps, performance, costs, replatforming, CMS workflows, and end-to-end processes with practical AI where it genuinely helps.",
 									"marks": []
 								}
 							]
@@ -650,7 +650,7 @@
 								{
 									"_type": "span",
 									"_key": "k46",
-									"text": "DevOps, servers and reliability",
+									"text": "CI/CD, DevOps and reliability",
 									"marks": []
 								}
 							]
@@ -664,7 +664,7 @@
 								{
 									"_type": "span",
 									"_key": "k48",
-									"text": "Infrastructure design, automation, cost control, observability, deployment pipelines, server configuration, and production systems that need senior judgement without unnecessary drama.",
+									"text": "Infrastructure design, automation, observability, deployment pipelines, server configuration, release confidence, and production systems that need senior judgement without unnecessary drama.",
 									"marks": []
 								}
 							]
@@ -878,7 +878,7 @@
 								{
 									"_type": "span",
 									"_key": "k50",
-									"text": "Technical strategy for small teams",
+									"text": "Technical architecture, process and practical AI",
 									"marks": []
 								}
 							]
@@ -892,7 +892,7 @@
 								{
 									"_type": "span",
 									"_key": "k52",
-									"text": "CTO-style technical direction without hiring a full leadership team: architecture reviews, platform choices, vendor decisions, delivery planning, and hands-on implementation where it matters.",
+									"text": "CTO-style technical direction, process improvement, and AI adoption support without hiring a full leadership team: architecture reviews, platform choices, vendor decisions, delivery planning, workflow mapping, and hands-on implementation where it matters.",
 									"marks": []
 								}
 							]

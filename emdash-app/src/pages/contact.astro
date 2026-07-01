@@ -18,7 +18,11 @@ const errorMessages: Record<string, string> = {
 };
 ---
 
-<Base title="Contact" description="Get in touch with Simple Things">
+<Base
+	title="Contact"
+	description="Contact Simple Things about technical architecture, DevOps, CI/CD, performance, replatforming, CMS, or practical AI process improvement."
+	canonical="/contact"
+>
 	<section class="contact">
 		<div class="intro">
 			<p class="eyebrow">Contact</p>
@@ -79,6 +83,52 @@ const errorMessages: Record<string, string> = {
 		async
 		defer
 	></script>
+	{sent && (
+		<script is:inline>
+			(function () {
+				if (typeof window.simpleThingsTrack === "function") {
+					window.simpleThingsTrack("generate_lead", {
+						lead_source: "contact_form",
+						method: "contact_form",
+					});
+				}
+
+				var url = new URL(window.location.href);
+				url.searchParams.delete("sent");
+				window.history.replaceState({}, "", url.pathname + (url.search || "") + url.hash);
+			})();
+		</script>
+	)}
+	<script is:inline>
+		(function () {
+			var form = document.querySelector(".contact-form");
+			if (!form) return;
+
+			var started = false;
+			function track(name, params) {
+				if (typeof window.simpleThingsTrack !== "function") return;
+				window.simpleThingsTrack(name, params || {});
+			}
+
+			function trackFormStart() {
+				if (started) return;
+				started = true;
+				track("contact_form_start", {
+					form_id: "contact",
+					page_location: window.location.href,
+				});
+			}
+
+			form.addEventListener("focusin", trackFormStart);
+			form.addEventListener("input", trackFormStart);
+			form.addEventListener("submit", function () {
+				track("contact_form_submit", {
+					form_id: "contact",
+					page_location: window.location.href,
+				});
+			});
+		})();
+	</script>
 </Base>
 
 <style>
@@ -192,7 +242,7 @@ const errorMessages: Record<string, string> = {
 	}
 
 	.error {
-		background: color-mix(in srgb, #ef4444 12%, transparent);
+		background: color-mix(in srgb, var(--color-accent) 12%, transparent);
 		color: var(--color-text);
 	}
 

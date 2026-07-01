@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+	<title>Simple Things wordmark fragment</title>
+	<rect width="64" height="64" rx="12" fill="#e6332a"/>
+	<path fill="#fbfbfa" d="M16 15h27a4 4 0 0 1 0 8H16a4 4 0 0 1 0-8Zm0 13h21a4 4 0 0 1 0 8H16a4 4 0 0 1 0-8Zm0 13h27a4 4 0 0 1 0 8H16a4 4 0 0 1 0-8Z"/>
+	<rect x="45" y="15" width="5" height="34" rx="2.5" fill="#171412"/>
+	<circle cx="50" cy="15" r="5" fill="#ffb000"/>
+</svg>

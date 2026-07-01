@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+	<title>Simple Things messy line to straight line</title>
+	<rect width="64" height="64" rx="12" fill="#fbfbfa"/>
+	<path d="M9 34c4-16 8 13 12-1 3-13 7 10 10-2 3-10 6 7 9 1 2-4 5-4 8-2 2 1 4 2 7 2" fill="none" stroke="#171412" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"/>
+	<path d="M9 34c4-16 8 13 12-1 3-13 7 10 10-2 3-10 6 7 9 1 2-4 5-4 8-2 2 1 4 2 7 2" fill="none" stroke="#e6332a" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+	<path d="M39 32h16" fill="none" stroke="#ffb000" stroke-linecap="round" stroke-width="5"/>
+	<circle cx="9" cy="34" r="4" fill="#e6332a"/>
+	<circle cx="55" cy="32" r="4" fill="#ffb000"/>
+</svg>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+	<title>Single sparse messy black line with red straight line</title>
+	
+	<rect width="64" height="64" rx="12" fill="#fbfbfa"/>
+	<path d="M10 34 C18 12 34 55 25 28 C18 8 55 13 43 38 C35 55 66 51 56 32" fill="none" stroke="#171412" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+	<path d="M10 34 L56 32" fill="none" stroke="#e6332a" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+	<circle cx="10" cy="34" r="3.15" fill="#171412" opacity="1"/>
+	<circle cx="56" cy="32" r="3.15" fill="#e6332a" opacity="1"/>
+	
+</svg>

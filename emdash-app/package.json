@@ -15,6 +15,8 @@
 		"review:worker": "astro build && wrangler dev --config dist/server/wrangler.json --local --port 8787",
 		"deploy": "astro build && wrangler deploy",
 		"cms:homepage-sections": "node scripts/update-homepage-sections-schema.mjs",
+		"cms:consultancy-positioning": "node scripts/update-consultancy-positioning.mjs",
+		"cms:html-in-canvas-post": "node scripts/update-html-in-canvas-post.mjs",
 		"typecheck": "astro check"
 	},
   "dependencies": {

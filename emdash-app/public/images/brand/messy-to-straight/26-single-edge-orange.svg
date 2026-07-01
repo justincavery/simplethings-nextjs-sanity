@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+	<title>Single boundary messy black line with dark orange straight line</title>
+	
+	<rect width="64" height="64" rx="12" fill="#fbfbfa"/>
+	<path d="M10 34 C-1 15 20 -2 37 10 C58 25 17 64 5 49 C-4 38 26 22 40 43 C52 61 72 50 56 32" fill="none" stroke="#171412" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+	<path d="M10 34 L56 32" fill="none" stroke="#c2410c" stroke-width="3.15" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+	<circle cx="10" cy="34" r="3" fill="#171412" opacity="1"/>
+	<circle cx="56" cy="32" r="3" fill="#c2410c" opacity="1"/>
+	
+</svg>

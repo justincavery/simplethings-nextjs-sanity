@@ -2,16 +2,40 @@
 import { getEmDashEntry } from "emdash";
 import ContentRenderer from "../components/ContentRenderer.astro";
 import Base from "../layouts/Base.astro";
+import { servicePages } from "../lib/services";
 
 const { entry: page, cacheHint } = await getEmDashEntry("pages", "services");
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 ---
 
-<Base title="Services" description="Technical consultancy services from Simple Things">
+<Base
+	title="Technical Architecture and Consultancy Services"
+	description="Technical architecture, DevOps, CI/CD, performance, replatforming, CMS, and practical AI process consultancy from Simple Things."
+	canonical="/services"
+>
 	<article class="page">
 		<div class="content" {...page?.edit?.content}>
 			{page?.data?.content ? <ContentRenderer value={page.data.content} /> : <p>Content coming soon.</p>}
 		</div>
+		<section class="service-links" aria-label="Consultancy services">
+			<div class="service-links-head">
+				<p class="eyebrow">Consultancy focus</p>
+				<h2>Ways I can help</h2>
+				<p>
+					Focused support for teams that need technical direction, better delivery
+					processes, calmer infrastructure, or practical AI adoption.
+				</p>
+			</div>
+			<div class="service-grid">
+				{servicePages.map((service) => (
+					<a href={`/services/${service.slug}`}>
+						<span>{service.eyebrow}</span>
+						<h3>{service.shortTitle}</h3>
+						<p>{service.description}</p>
+					</a>
+				))}
+			</div>
+		</section>
 		<p class="cta"><a href="/contact">Start a conversation</a></p>
 	</article>
 </Base>
@@ -47,6 +71,70 @@ if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 		margin: var(--spacing-md) 0 0 1.2rem;
 	}
 
+	.service-links {
+		border-top: 2px solid var(--color-text);
+		margin-top: var(--spacing-3xl);
+		padding-top: var(--spacing-xl);
+	}
+
+	.service-links-head {
+		max-width: var(--max-width);
+		margin-bottom: var(--spacing-xl);
+	}
+
+	.eyebrow {
+		color: var(--color-accent);
+		font-size: var(--font-size-sm);
+		font-weight: 800;
+		margin-bottom: var(--spacing-md);
+		text-transform: uppercase;
+	}
+
+	.service-links h2 {
+		font-size: var(--font-size-2xl);
+		margin-bottom: var(--spacing-sm);
+	}
+
+	.service-links-head p:not(.eyebrow) {
+		color: var(--color-muted);
+		font-size: var(--font-size-lg);
+		line-height: 1.65;
+	}
+
+	.service-grid {
+		display: grid;
+		gap: var(--spacing-lg);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.service-grid a {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		color: inherit;
+		display: block;
+		padding: var(--spacing-lg);
+		text-decoration: none;
+	}
+
+	.service-grid span {
+		color: var(--color-accent);
+		display: block;
+		font-size: var(--font-size-sm);
+		font-weight: 800;
+		margin-bottom: var(--spacing-sm);
+		text-transform: uppercase;
+	}
+
+	.service-grid h3 {
+		font-size: var(--font-size-xl);
+		margin-bottom: var(--spacing-sm);
+	}
+
+	.service-grid p {
+		color: var(--color-muted);
+		line-height: 1.6;
+	}
+
 	.cta {
 		margin-top: var(--spacing-2xl);
 	}
@@ -54,5 +142,11 @@ if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 	.cta a {
 		color: var(--color-accent);
 		font-weight: 700;
+	}
+
+	@media (max-width: 760px) {
+		.service-grid {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

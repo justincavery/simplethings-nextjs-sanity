@@ -52,7 +52,7 @@ HTML-in-Canvas is aimed at the gap between those two approaches.
 
 The demo runs today in normal browsers using a DOM overlay fallback. In a browser with the HTML-in-Canvas API enabled, the same control panel can be drawn through the canvas path.
 
-[Open the runnable orbital demo](/demos/html-in-canvas-orbits)
+[Open the runnable orbital demo](/examples/html-in-canvas-orbits)
 
 Try changing the star mass, nudging the giant planet, and increasing the time scale. Small changes should cause visible orbital changes, which is exactly the kind of interactive canvas workload where native HTML controls are valuable.
 

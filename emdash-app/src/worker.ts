@@ -1,5 +1,6 @@
 import handler from "@astrojs/cloudflare/entrypoints/server";
 import { handleContactPost } from "./contact-handler";
+import { handleSitemapGet, isSitemapPath } from "./sitemap-handler";
 
 const permanentRedirects = new Map([
 	["/posts", "/blog"],
@@ -17,6 +18,13 @@ export default {
 				return new Response("Method not allowed", { status: 405 });
 			}
 			return handleContactPost(request, env);
+		}
+
+		if (isSitemapPath(url.pathname)) {
+			if (request.method !== "GET" && request.method !== "HEAD") {
+				return new Response("Method not allowed", { status: 405 });
+			}
+			return handleSitemapGet(request, env);
 		}
 
 		const destination = permanentRedirects.get(url.pathname);
