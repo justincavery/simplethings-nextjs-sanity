@@ -1,0 +1,551 @@
+---
+import { getEmDashEntry } from "emdash";
+import ContentRenderer from "../components/ContentRenderer.astro";
+import Base from "../layouts/Base.astro";
+
+const { entry: page, cacheHint } = await getEmDashEntry("pages", "brand");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const colours = [
+	{ name: "Ink", value: "#171412", description: "Primary text, rules, field structure." },
+	{ name: "Warm off-white", value: "#fbfbfa", description: "Default page background and document base." },
+	{ name: "Brand red", value: "#e6332a", description: "Key path, emphasis, decisions, active states." },
+	{ name: "Deep red", value: "#8f1d19", description: "Secondary red for restrained depth." },
+	{ name: "Muted text", value: "#5f5a55", description: "Supporting copy, captions, quiet metadata." },
+	{ name: "Border", value: "#d8d4ce", description: "Rules, separators, grids, table lines." },
+];
+
+const voice = [
+	"Calm, senior, practical, precise, warm, and field-tested.",
+	"Specific about technical work: architecture, CI/CD, DevOps, performance, CMS, automation, AI adoption, and handover.",
+	"Useful before it is decorative. Simple means clear and well-shaped, not basic.",
+];
+
+const outputs = [
+	{
+		title: "Slides and pitch decks",
+		text: "One idea per slide, strong point-making titles, simple diagrams or evidence, and red used only for the key decision or risk.",
+	},
+	{
+		title: "Documents",
+		text: "Clear headings, visible assumptions, trade-offs, open questions, and next actions. Easy to skim, easy to hand over.",
+	},
+	{
+		title: "Blog images",
+		text: "Real screenshots, diagrams, annotated flows, infrastructure maps, or generated visuals that directly express the technical idea.",
+	},
+	{
+		title: "Graphs",
+		text: "Simple chart types, labelled axes, restrained colour, and direct annotations that explain the insight without decoration.",
+	},
+	{
+		title: "Case studies",
+		text: "Situation, problem, work, outcome, and handover. Use numbers where available and observable outcomes where numbers are not.",
+	},
+	{
+		title: "AI prompts",
+		text: "Give the model the raw Markdown reference, ask for calm technical clarity, and reject hype, stock visuals, and magical AI language.",
+	},
+];
+
+const assets = [
+	{
+		label: "Light lockup",
+		path: "/images/brand/simple-things/logo/lockup-light.svg",
+		mode: "light",
+	},
+	{
+		label: "Dark lockup",
+		path: "/images/brand/simple-things/logo/lockup-dark.svg",
+		mode: "dark",
+	},
+	{
+		label: "Cream avatar",
+		path: "/images/brand/simple-things/social/avatar-cream-400.png",
+		mode: "light",
+	},
+	{
+		label: "Red avatar",
+		path: "/images/brand/simple-things/social/avatar-red-400.png",
+		mode: "red",
+	},
+];
+
+const prompt = `Use the Simple Things brand definition as the source of truth.
+
+Simple Things is the independent technology practice of Justin Avery. The brand is calm, senior, practical, precise, warm, and field-tested. It helps teams move from messy technical systems to clearer architecture, calmer delivery, better handover, and practical AI adoption where it genuinely helps.
+
+Visuals should use warm off-white #fbfbfa, ink #171412, brand red #e6332a, muted greys, thin rules, clear hierarchy, Inter or a clean system sans-serif, and structured field-notebook layouts. Avoid glossy agency styling, gradients, decorative blobs, generic stock imagery, over-rounded cards, hype language, and magical AI tropes.
+
+Writing should be direct, concrete, and useful. Explain context, friction, approach, result, and handover. Prefer specific technical examples over broad claims.`;
+---
+
+<Base
+	title="Simple Things Brand Definition"
+	description="The Simple Things brand definition for content, documents, decks, images, graphs, case studies, prompts, and generated visuals."
+	canonical="/brand"
+>
+	<article class="brand-page">
+		<header class="brand-hero">
+			<div class="brand-hero-copy">
+				<p class="eyebrow">Brand reference</p>
+				<h1>Simple Things brand definition</h1>
+				<p class="lede">
+					A stable reference for anything created by Justin Avery as Simple Things
+					Limited: slides, documents, pitch decks, blog posts, diagrams, graphs,
+					case studies, prompts, and generated visuals.
+				</p>
+				<div class="brand-actions" aria-label="Brand reference links">
+					<a href="/brand.md" class="primary-link">Raw Markdown</a>
+					<a href="/llms.txt">LLM index</a>
+					<a href="#prompt">Prompt block</a>
+				</div>
+			</div>
+			<aside class="brand-panel" aria-label="Brand source details">
+				<img
+					src="/images/brand/simple-things/logo/lockup-light.svg"
+					alt="Simple Things"
+					width="348"
+					height="80"
+				/>
+				<dl>
+					<div>
+						<dt>Version</dt>
+						<dd>1.0</dd>
+					</div>
+					<div>
+						<dt>Updated</dt>
+						<dd>7 July 2026</dd>
+					</div>
+					<div>
+						<dt>Canonical file</dt>
+						<dd><a href="/brand.md">/brand.md</a></dd>
+					</div>
+					<div>
+						<dt>Repo source</dt>
+						<dd>docs/simple-things-brand.md</dd>
+					</div>
+				</dl>
+			</aside>
+		</header>
+
+		<section class="brand-band">
+			<div class="section-label">
+				<p class="eyebrow">Core idea</p>
+				<h2>From tangled complexity to useful clarity.</h2>
+			</div>
+			<div class="brand-copy">
+				<p>
+					Simple Things is the independent technology practice of Justin Avery. It
+					helps teams turn messy, brittle, expensive or unclear technical systems
+					into calmer platforms, clearer decisions, faster delivery paths, and
+					practical working habits.
+				</p>
+				<p class="positioning">Technical architecture for calmer, faster delivery.</p>
+			</div>
+		</section>
+
+		<section class="brand-band">
+			<div class="section-label">
+				<p class="eyebrow">Voice</p>
+				<h2>Senior, calm, specific.</h2>
+			</div>
+			<div class="principles">
+				{voice.map((item) => <p>{item}</p>)}
+			</div>
+		</section>
+
+		<section class="brand-band">
+			<div class="section-label">
+				<p class="eyebrow">Visual system</p>
+				<h2>Field notebook, not agency gloss.</h2>
+			</div>
+			<div>
+				<div class="colour-grid">
+					{colours.map((colour) => (
+						<div class="colour-item">
+							<span class="swatch" style={`--swatch: ${colour.value}`}></span>
+							<strong>{colour.name}</strong>
+							<code>{colour.value}</code>
+							<p>{colour.description}</p>
+						</div>
+					))}
+				</div>
+				<p class="visual-note">
+					Use thin rules, clean grids, strong hierarchy, generous prose spacing,
+					real technical context, and red as a signal colour. Avoid gradients,
+					decorative blobs, glossy stock imagery, heavy shadows, and over-rounded
+					UI.
+				</p>
+			</div>
+		</section>
+
+		<section class="brand-band">
+			<div class="section-label">
+				<p class="eyebrow">Assets</p>
+				<h2>Use the lockups and avatars directly.</h2>
+			</div>
+			<div class="asset-grid">
+				{assets.map((asset) => (
+					<a href={asset.path} class={`asset-item ${asset.mode}`}>
+						<span>{asset.label}</span>
+						<img src={asset.path} alt={asset.label} loading="lazy" />
+						<code>{asset.path}</code>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section class="brand-band">
+			<div class="section-label">
+				<p class="eyebrow">Outputs</p>
+				<h2>How the brand shows up.</h2>
+			</div>
+			<div class="output-grid">
+				{outputs.map((output) => (
+					<section>
+						<h3>{output.title}</h3>
+						<p>{output.text}</p>
+					</section>
+				))}
+			</div>
+		</section>
+
+		<section class="brand-band prompt-band" id="prompt">
+			<div class="section-label">
+				<p class="eyebrow">Prompt</p>
+				<h2>Drop this into an AI tool.</h2>
+			</div>
+			<div>
+				<pre><code>{prompt}</code></pre>
+				<p class="prompt-link">
+					For the full context, give the model <a href="/brand.md">the raw Markdown file</a>.
+				</p>
+			</div>
+		</section>
+
+		{page?.data?.content && (
+			<section class="cms-note" {...page?.edit?.content}>
+				<ContentRenderer value={page.data.content} />
+			</section>
+		)}
+	</article>
+</Base>
+
+<style>
+	.brand-page {
+		margin: 0 auto;
+		max-width: var(--wide-width);
+		padding: var(--spacing-3xl) var(--spacing-lg) var(--spacing-4xl);
+	}
+
+	.brand-hero {
+		border-bottom: 1px solid var(--color-border);
+		display: grid;
+		gap: var(--spacing-2xl);
+		grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+		padding-bottom: var(--spacing-3xl);
+	}
+
+	.brand-hero-copy {
+		border-left: 2px solid var(--color-accent);
+		padding-left: var(--spacing-xl);
+	}
+
+	.brand-hero h1 {
+		font-size: var(--font-size-4xl);
+		line-height: 0.98;
+		max-width: 850px;
+	}
+
+	.lede {
+		color: var(--color-text);
+		font-size: var(--font-size-lg);
+		line-height: 1.7;
+		margin-top: var(--spacing-lg);
+		max-width: 720px;
+	}
+
+	.brand-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-sm);
+		margin-top: var(--spacing-xl);
+	}
+
+	.brand-actions a {
+		border: 2px solid var(--color-text);
+		color: var(--color-text);
+		font-size: var(--font-size-sm);
+		font-weight: 900;
+		padding: 0.65rem 0.85rem;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+
+	.brand-actions .primary-link {
+		background: var(--color-accent);
+		border-color: var(--color-accent);
+		color: #ffffff;
+	}
+
+	.brand-panel {
+		align-self: start;
+		border-bottom: 2px solid var(--color-text);
+		border-top: 2px solid var(--color-text);
+		padding: var(--spacing-lg) 0;
+	}
+
+	.brand-panel img {
+		height: auto;
+		margin-bottom: var(--spacing-xl);
+		max-width: 230px;
+	}
+
+	.brand-panel dl {
+		display: grid;
+	}
+
+	.brand-panel div {
+		border-top: 1px solid var(--color-border);
+		padding: var(--spacing-md) 0;
+	}
+
+	.brand-panel dt {
+		color: var(--color-muted);
+		font-size: 0.75rem;
+		font-weight: 900;
+		text-transform: uppercase;
+	}
+
+	.brand-panel dd {
+		line-height: 1.5;
+		margin-top: var(--spacing-xs);
+		overflow-wrap: anywhere;
+	}
+
+	.brand-panel a {
+		color: var(--color-accent);
+		font-weight: 800;
+	}
+
+	.brand-band {
+		border-bottom: 1px solid var(--color-border);
+		display: grid;
+		gap: var(--spacing-2xl);
+		grid-template-columns: 260px minmax(0, 1fr);
+		padding: var(--spacing-3xl) 0;
+	}
+
+	.section-label h2 {
+		font-size: 1.45rem;
+		font-weight: 800;
+		line-height: 1.15;
+	}
+
+	.brand-copy p,
+	.visual-note,
+	.prompt-link {
+		color: var(--color-text);
+		font-size: var(--font-size-lg);
+		line-height: 1.7;
+		max-width: 780px;
+	}
+
+	.positioning {
+		border-left: 2px solid var(--color-accent);
+		font-weight: 800;
+		margin-top: var(--spacing-xl);
+		padding-left: var(--spacing-lg);
+	}
+
+	.principles {
+		display: grid;
+		gap: 0;
+	}
+
+	.principles p {
+		border-top: 1px solid var(--color-border);
+		color: var(--color-text);
+		font-size: var(--font-size-lg);
+		line-height: 1.65;
+		padding: var(--spacing-lg) 0;
+	}
+
+	.principles p:first-child {
+		border-top: 2px solid var(--color-text);
+	}
+
+	.colour-grid,
+	.asset-grid,
+	.output-grid {
+		display: grid;
+		gap: 0;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.colour-item,
+	.output-grid section,
+	.asset-item {
+		border-top: 1px solid var(--color-border);
+		min-width: 0;
+		padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-lg) 0;
+	}
+
+	.colour-item:nth-child(-n + 2),
+	.output-grid section:nth-child(-n + 2),
+	.asset-item:nth-child(-n + 2) {
+		border-top: 2px solid var(--color-text);
+	}
+
+	.swatch {
+		background: var(--swatch);
+		border: 1px solid var(--color-border);
+		display: block;
+		height: 54px;
+		margin-bottom: var(--spacing-md);
+		width: 100%;
+	}
+
+	.colour-item strong,
+	.asset-item span,
+	.output-grid h3 {
+		display: block;
+		font-size: 1rem;
+		font-weight: 900;
+		line-height: 1.25;
+		margin-bottom: var(--spacing-xs);
+	}
+
+	.colour-item code,
+	.asset-item code {
+		color: var(--color-accent);
+		display: block;
+		font-family: var(--font-mono);
+		font-size: 0.82rem;
+		overflow-wrap: anywhere;
+	}
+
+	.colour-item p,
+	.output-grid p {
+		color: var(--color-muted);
+		line-height: 1.55;
+		margin-top: var(--spacing-sm);
+	}
+
+	.visual-note {
+		border-top: 1px solid var(--color-border);
+		margin-top: var(--spacing-xl);
+		padding-top: var(--spacing-lg);
+	}
+
+	.asset-item {
+		color: var(--color-text);
+		text-decoration: none;
+	}
+
+	.asset-item img {
+		height: 92px;
+		margin: var(--spacing-md) 0;
+		object-fit: contain;
+		object-position: left center;
+		width: min(100%, 260px);
+	}
+
+	.asset-item.dark {
+		background: var(--color-text);
+		color: var(--color-bg);
+		padding-left: var(--spacing-lg);
+	}
+
+	.asset-item.dark code {
+		color: #ffffff;
+	}
+
+	.asset-item.red {
+		background: var(--color-accent);
+		color: #ffffff;
+		padding-left: var(--spacing-lg);
+	}
+
+	.asset-item.red code {
+		color: #ffffff;
+	}
+
+	.prompt-band pre {
+		background: var(--color-text);
+		color: var(--color-bg);
+		font-family: var(--font-mono);
+		font-size: 0.92rem;
+		line-height: 1.65;
+		margin: 0;
+		overflow-x: auto;
+		padding: var(--spacing-lg);
+		white-space: pre-wrap;
+	}
+
+	.prompt-link {
+		font-size: 1rem;
+		margin-top: var(--spacing-md);
+	}
+
+	.prompt-link a {
+		color: var(--color-accent);
+		font-weight: 800;
+	}
+
+	.cms-note {
+		border-top: 2px solid var(--color-text);
+		margin-top: var(--spacing-3xl);
+		max-width: var(--max-width);
+		padding-top: var(--spacing-xl);
+	}
+
+	.cms-note :global(p) {
+		color: var(--color-muted);
+		line-height: 1.65;
+	}
+
+	@media (max-width: 900px) {
+		.brand-hero,
+		.brand-band {
+			grid-template-columns: 1fr;
+		}
+
+		.brand-panel {
+			max-width: 520px;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.brand-page {
+			padding-top: var(--spacing-2xl);
+		}
+
+		.brand-hero-copy {
+			padding-left: var(--spacing-md);
+		}
+
+		.brand-actions a {
+			width: 100%;
+		}
+
+		.colour-grid,
+		.asset-grid,
+		.output-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.colour-item:nth-child(n),
+		.output-grid section:nth-child(n),
+		.asset-item:nth-child(n) {
+			border-top: 1px solid var(--color-border);
+		}
+
+		.colour-item:first-child,
+		.output-grid section:first-child,
+		.asset-item:first-child {
+			border-top: 2px solid var(--color-text);
+		}
+	}
+</style>

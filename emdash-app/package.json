@@ -17,6 +17,7 @@
 		"cms:homepage-sections": "node scripts/update-homepage-sections-schema.mjs",
 		"cms:consultancy-positioning": "node scripts/update-consultancy-positioning.mjs",
 		"cms:html-in-canvas-post": "node scripts/update-html-in-canvas-post.mjs",
+		"cms:brand-settings": "node scripts/update-brand-settings.mjs",
 		"typecheck": "astro check"
 	},
   "dependencies": {

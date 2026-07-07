@@ -204,6 +204,8 @@ const pageCtx = createPublicPageContext({
 						>
 					</div>
 					<p class="footer-powered">
+						<a href="/brand">Brand reference</a>
+						<span aria-hidden="true">/</span>
 						<a href="mailto:hello@simplethin.gs">hello@simplethin.gs</a>
 					</p>
 				</div>
@@ -546,6 +548,11 @@ const pageCtx = createPublicPageContext({
 			.footer-powered {
 				font-size: var(--font-size-sm);
 				color: var(--color-muted);
+			}
+
+			.footer-powered span {
+				color: var(--color-muted);
+				margin: 0 var(--spacing-xs);
 			}
 
 			.footer-powered a {

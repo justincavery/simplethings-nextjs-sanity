@@ -8,8 +8,8 @@
 	},
 	"settings": {
 		"title": "Simple Things Limited",
-		"tagline": "UK based technology company transforming businesses with cutting-edge consultancy services.",
-		"description": "At Simple Things Limited, we specialise in transforming businesses with cutting-edge consultancy services. Whether you're scaling your infrastructure, building blockchain solutions, or unlocking the potential of artificial intelligence, our expert team is here to guide you.",
+		"tagline": "Technical architecture for calmer, faster delivery.",
+		"description": "Simple Things is Justin Avery's independent technology practice for practical technical architecture, DevOps, performance, CMS workflows, automation, replatforming, and AI adoption.",
 		"siteUrl": "https://simplethin.gs"
 	},
 	"collections": [
@@ -599,6 +599,30 @@
 									"_type": "span",
 									"_key": "k5is",
 									"text": "The work is deliberately practical: clear architecture, useful automation, resilient APIs, clean CMS workflows, observable deployments, and documentation that helps the team keep moving after handover.",
+									"marks": []
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "page-brand",
+				"slug": "brand",
+				"status": "published",
+				"data": {
+					"title": "Brand",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "brand-note",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "brand-note-span",
+									"text": "This public page is paired with a repo-owned Markdown source at /brand.md so people and AI tools can work from the same Simple Things brand reference.",
 									"marks": []
 								}
 							]

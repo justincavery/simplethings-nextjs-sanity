@@ -11,6 +11,7 @@ type SitemapEntry = {
 
 const SITE_URL = "https://simplethin.gs";
 const STATIC_LASTMOD = "2026-06-10T12:00:00.000Z";
+const BRAND_LASTMOD = "2026-07-07T00:00:00.000Z";
 const XML_HEADERS = {
 	"Content-Type": "application/xml; charset=utf-8",
 	"Cache-Control": "public, max-age=3600",
@@ -26,6 +27,7 @@ const staticPageEntries: SitemapEntry[] = [
 	{ loc: "/projects", lastmod: STATIC_LASTMOD },
 	{ loc: "/blog", lastmod: STATIC_LASTMOD },
 	{ loc: "/about", lastmod: STATIC_LASTMOD },
+	{ loc: "/brand", lastmod: BRAND_LASTMOD },
 	{ loc: "/contact", lastmod: STATIC_LASTMOD },
 ];
 
