@@ -1,4 +1,7 @@
 const SITEVERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+const TURNSTILE_ACTION = "contact";
+const TURNSTILE_TIMEOUT_MS = 10_000;
+const MAX_TURNSTILE_TOKEN_LENGTH = 2048;
 const MIN_SUBMIT_MS = 2500;
 const MAX_MESSAGE_LENGTH = 5000;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
@@ -7,6 +10,7 @@ const RATE_LIMIT_MAX = 3;
 export type ContactEnv = {
 	DB?: D1Database;
 	TURNSTILE_SECRET_KEY?: string;
+	TURNSTILE_HOSTNAMES?: string;
 	CONTACT_IP_SALT?: string;
 };
 
@@ -14,9 +18,6 @@ type TurnstileResponse = {
 	success: boolean;
 	hostname?: string;
 	action?: string;
-	metadata?: {
-		result_with_testing_key?: boolean;
-	};
 	"error-codes"?: string[];
 };
 
@@ -78,38 +79,51 @@ async function verifyTurnstile(
 	token: string,
 	secret: string,
 	clientIp: string,
-	expectedHost: string,
+	expectedHostnames: Set<string>,
 ) {
-	const payload = new FormData();
-	payload.set("secret", secret);
-	payload.set("response", token);
-	if (clientIp) payload.set("remoteip", clientIp);
-
-	const response = await fetch(SITEVERIFY_URL, {
-		method: "POST",
-		body: payload,
-	});
-
-	if (!response.ok) return null;
-
-	const result = (await response.json()) as TurnstileResponse;
-	if (!result.success) return null;
-	if (result.action && result.action !== "contact") return null;
-	if (
-		result.hostname &&
-		result.hostname !== expectedHost &&
-		!result.metadata?.result_with_testing_key
-	) {
+	if (!token || token.length > MAX_TURNSTILE_TOKEN_LENGTH || expectedHostnames.size === 0) {
 		return null;
 	}
-	return result;
+
+	try {
+		const payload = new URLSearchParams({ secret, response: token });
+		if (clientIp) payload.set("remoteip", clientIp);
+
+		const response = await fetch(SITEVERIFY_URL, {
+			method: "POST",
+			headers: { "Content-Type": "application/x-www-form-urlencoded" },
+			signal: AbortSignal.timeout(TURNSTILE_TIMEOUT_MS),
+			body: payload,
+		});
+
+		if (!response.ok) return null;
+
+		const result = (await response.json()) as TurnstileResponse;
+		if (
+			result.success !== true ||
+			result.action !== TURNSTILE_ACTION ||
+			!result.hostname ||
+			!expectedHostnames.has(result.hostname)
+		) {
+			return null;
+		}
+		return result;
+	} catch {
+		return null;
+	}
 }
 
 async function processContactPost(request: Request, env: ContactEnv, url: URL) {
 	const db = env.DB;
 	const secret = env.TURNSTILE_SECRET_KEY;
+	const expectedHostnames = new Set(
+		(env.TURNSTILE_HOSTNAMES || "")
+			.split(",")
+			.map((hostname) => hostname.trim())
+			.filter(Boolean),
+	);
 
-	if (!db || !secret) {
+	if (!db || !secret || expectedHostnames.size === 0) {
 		return redirect(url, { error: "unavailable" });
 	}
 
@@ -143,7 +157,7 @@ async function processContactPost(request: Request, env: ContactEnv, url: URL) {
 	}
 
 	const clientIp = request.headers.get("cf-connecting-ip") || "";
-	const turnstile = await verifyTurnstile(token, secret, clientIp, url.hostname);
+	const turnstile = await verifyTurnstile(token, secret, clientIp, expectedHostnames);
 	if (!turnstile) {
 		return redirect(url, { error: "verify" });
 	}

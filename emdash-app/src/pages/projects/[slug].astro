@@ -15,7 +15,9 @@ import Base from "../../layouts/Base.astro";
 const slug = decodeSlug(Astro.params.slug);
 if (!slug) return Astro.redirect("/404");
 
-const { entry: project, cacheHint } = await getEmDashEntry("projects", slug);
+const { entry: project, cacheHint } = await getEmDashEntry("projects", slug, {
+	references: { related_posts: { limit: 6 } },
+});
 if (!project) return Astro.redirect("/404");
 
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
@@ -98,6 +100,7 @@ function normaliseCapabilities(value: unknown): CapabilityGroup[] {
 const businessBenefits = normaliseList(data.business_benefits, ["benefit", "text", "title"]);
 const technicalHighlights = normaliseList(data.technical_highlights, ["highlight", "text", "title"]);
 const capabilityGroups = normaliseCapabilities(data.stack);
+const relatedPosts = project.references?.related_posts?.entries ?? [];
 ---
 
 <Base title={seoTitle} description={seoDescription} image={seoImage} canonical={canonical}>
@@ -138,6 +141,20 @@ const capabilityGroups = normaliseCapabilities(data.stack);
 		<div class="content" {...project.edit.content}>
 			<ContentRenderer value={data.content} />
 		</div>
+		{relatedPosts.length > 0 && (
+			<section class="related-content" aria-labelledby="related-posts-heading">
+				<p class="eyebrow">Related writing</p>
+				<h2 id="related-posts-heading">Articles connected to this project</h2>
+				<div class="related-grid">
+					{relatedPosts.map((post) => (
+						<a href={`/posts/${post.id}`}>
+							<strong>{post.data.title}</strong>
+							{post.data.excerpt && <span>{post.data.excerpt}</span>}
+						</a>
+					))}
+				</div>
+			</section>
+		)}
 		<section class="project-cta">
 			<div>
 				<p class="eyebrow">Need this kind of technical support?</p>
@@ -324,6 +341,36 @@ const capabilityGroups = normaliseCapabilities(data.stack);
 		grid-template-columns: minmax(0, var(--max-width)) auto;
 		margin-top: var(--spacing-3xl);
 		padding-top: var(--spacing-xl);
+	}
+
+	.related-content {
+		border-top: 1px solid var(--color-border);
+		margin: var(--spacing-3xl) 0 0;
+		max-width: var(--max-width);
+		padding-top: var(--spacing-xl);
+	}
+
+	.related-content h2 {
+		font-size: var(--font-size-2xl);
+		margin-bottom: var(--spacing-lg);
+	}
+
+	.related-grid {
+		display: grid;
+		gap: var(--spacing-md);
+	}
+
+	.related-grid a {
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		display: grid;
+		gap: var(--spacing-xs);
+		padding: var(--spacing-lg);
+		text-decoration: none;
+	}
+
+	.related-grid span {
+		color: var(--color-muted);
 	}
 
 	.project-cta .eyebrow {

@@ -18,11 +18,22 @@ npm-debug.log*
 # environment variables
 .env
 .env.local
+.env.migrations
 
 # Wrangler local secrets
 .dev.vars
 .dev.vars.*
 .wrangler/
+
+# EmDash build output
+.emdash/migrations.json
+schema.json
+
+# Local production backups
+.backups/
+
+# Browser test artifacts
+.playwright-cli/
 
 # macOS
 .DS_Store

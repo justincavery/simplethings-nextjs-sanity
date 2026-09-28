@@ -2,10 +2,14 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "simplethings",
 	"main": "./src/worker.ts",
-	"compatibility_date": "2026-06-04",
+	"compatibility_date": "2026-09-28",
 	"compatibility_flags": ["nodejs_compat"],
 	"vars": {
-		"PUBLIC_TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
+		"PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAFHCtnZ9ms2nBaDf",
+		"TURNSTILE_HOSTNAMES": "simplethin.gs,www.simplethin.gs",
+	},
+	"triggers": {
+		"crons": ["* * * * *"],
 	},
 	"routes": [
 		{ "pattern": "simplethin.gs/*", "zone_name": "simplethin.gs" },
@@ -26,8 +30,18 @@
 	],
 	"kv_namespaces": [
 		{
+			"binding": "CACHE",
+			"id": "be72fec1a7da4c9c8874aeb54577c39a",
+		},
+		{
 			"binding": "SESSION",
 			"id": "5600bbd856844a2ea46b37a7ff0bd66f",
+		},
+	],
+	"ai_search_namespaces": [
+		{
+			"binding": "AI_SEARCH",
+			"namespace": "default",
 		},
 	],
 }

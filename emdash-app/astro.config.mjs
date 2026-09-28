@@ -1,6 +1,8 @@
 import cloudflare from "@astrojs/cloudflare";
+import { cacheCloudflare } from "@astrojs/cloudflare/cache";
 import react from "@astrojs/react";
-import { d1, r2 } from "@emdash-cms/cloudflare";
+import { d1, kvCache, r2 } from "@emdash-cms/cloudflare";
+import { aiSearch } from "@emdash-cms/cloudflare/plugins";
 import { fileURLToPath } from "node:url";
 import { defineConfig, fontProviders } from "astro/config";
 import emdash from "emdash/astro";
@@ -14,6 +16,9 @@ const contentBlocksComponents = fileURLToPath(new URL(
 export default defineConfig({
 	output: "server",
 	adapter: cloudflare(),
+	cache: {
+		provider: cacheCloudflare(),
+	},
 	image: {
 		layout: "constrained",
 		responsiveStyles: true,
@@ -23,7 +28,14 @@ export default defineConfig({
 		emdash({
 			database: d1({ binding: "DB", session: "auto" }),
 			storage: r2({ binding: "MEDIA" }),
+			objectCache: kvCache({ binding: "CACHE", defaultTtl: 300 }),
 			plugins: [
+				aiSearch({
+					urlTemplates: {
+						posts: "/posts/{slug}",
+						projects: "/projects/{slug}",
+					},
+				}),
 				{
 					id: "simplethings-content-blocks",
 					version: "0.1.0",

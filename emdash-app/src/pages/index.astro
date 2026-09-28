@@ -26,7 +26,8 @@ if (Astro.cache?.enabled) Astro.cache.set(projectsResult.cacheHint);
 	canonical="/"
 >
 	<HomeSections
-		sections={homeData?.sections}
+		sections={homeData?.layout ?? homeData?.sections}
+		editField={homeData?.layout ? "layout" : "sections"}
 		edit={home?.edit}
 		projects={projects}
 		posts={posts}

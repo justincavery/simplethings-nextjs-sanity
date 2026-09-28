@@ -1,6 +1,7 @@
 ---
 import { getMenu, getSiteSettings } from "emdash";
 import { EmDashHead } from "emdash/ui";
+import AISearchSnippet from "@emdash-cms/cloudflare/plugins/ai-search/astro";
 import { createPublicPageContext } from "emdash/page";
 import { Font } from "astro:assets";
 import { absoluteUrl, canonicalFor, ogImageFor, siteOrigin } from "../lib/seo";
@@ -156,6 +157,16 @@ const pageCtx = createPublicPageContext({
 							</a>
 						))
 					}
+					<AISearchSnippet
+						placeholder="Search posts and projects…"
+						hideBranding={true}
+						hideThumbnails={false}
+						showDate={true}
+					>
+						<button slot="trigger" type="button" class="search-trigger" aria-label="Search this site">
+							Search
+						</button>
+					</AISearchSnippet>
 				</div>
 			</nav>
 		</header>
@@ -457,13 +468,20 @@ const pageCtx = createPublicPageContext({
 				margin-left: auto;
 			}
 
-			.nav-links a {
+			.nav-links a,
+			.search-trigger {
+				background: transparent;
+				border: 0;
 				text-decoration: none;
 				color: var(--color-muted);
+				cursor: pointer;
+				font: inherit;
+				padding: 0;
 				transition: color var(--transition-fast);
 			}
 
-			.nav-links a:hover {
+			.nav-links a:hover,
+			.search-trigger:hover {
 				color: var(--color-text);
 			}
 

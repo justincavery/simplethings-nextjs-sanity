@@ -12,11 +12,169 @@
 		"description": "Simple Things is Justin Avery's independent technology practice for practical technical architecture, DevOps, performance, CMS workflows, automation, replatforming, and AI adoption.",
 		"siteUrl": "https://simplethin.gs"
 	},
+	"blockTypes": [
+		{
+			"slug": "hero",
+			"label": "Hero",
+			"description": "Large introductory heading, summary and primary actions.",
+			"category": "Homepage",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{ "slug": "eyebrow", "label": "Eyebrow", "type": "string" },
+						{ "slug": "title", "label": "Title", "type": "string", "required": true },
+						{ "slug": "summary", "label": "Summary", "type": "text" },
+						{ "slug": "primary_label", "label": "Primary link label", "type": "string" },
+						{ "slug": "primary_url", "label": "Primary link URL", "type": "url" },
+						{ "slug": "secondary_label", "label": "Secondary link label", "type": "string" },
+						{ "slug": "secondary_url", "label": "Secondary link URL", "type": "url" },
+						{ "slug": "items", "label": "Working notes", "type": "text" },
+						{
+							"slug": "variant",
+							"label": "Visual variant",
+							"type": "select",
+							"validation": { "options": ["default", "field", "compact"] }
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "steps",
+			"label": "Steps",
+			"description": "A short ordered process.",
+			"category": "Homepage",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{ "slug": "eyebrow", "label": "Eyebrow", "type": "string" },
+						{ "slug": "title", "label": "Title", "type": "string", "required": true },
+						{ "slug": "items", "label": "Steps", "type": "text", "required": true }
+					]
+				}
+			]
+		},
+		{
+			"slug": "services",
+			"label": "Services",
+			"description": "Manual service cards and an optional overview link.",
+			"category": "Homepage",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{ "slug": "title", "label": "Title", "type": "string", "required": true },
+						{ "slug": "primary_label", "label": "Overview link label", "type": "string" },
+						{ "slug": "primary_url", "label": "Overview link URL", "type": "url" },
+						{ "slug": "items", "label": "Services", "type": "text", "required": true }
+					]
+				}
+			]
+		},
+		{
+			"slug": "projects",
+			"label": "Project listing",
+			"description": "Latest project cards from the Projects collection.",
+			"category": "Homepage",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{ "slug": "title", "label": "Title", "type": "string", "required": true },
+						{ "slug": "primary_label", "label": "Overview link label", "type": "string" },
+						{ "slug": "primary_url", "label": "Overview link URL", "type": "url" },
+						{ "slug": "limit", "label": "Item limit", "type": "integer" }
+					]
+				}
+			]
+		},
+		{
+			"slug": "posts",
+			"label": "Post listing",
+			"description": "Latest articles from the Posts collection.",
+			"category": "Homepage",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{ "slug": "title", "label": "Title", "type": "string", "required": true },
+						{ "slug": "primary_label", "label": "Overview link label", "type": "string" },
+						{ "slug": "primary_url", "label": "Overview link URL", "type": "url" },
+						{ "slug": "limit", "label": "Item limit", "type": "integer" }
+					]
+				}
+			]
+		},
+		{
+			"slug": "rich_text",
+			"label": "Text section",
+			"description": "A heading, introduction and freeform body copy.",
+			"category": "Homepage",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{ "slug": "eyebrow", "label": "Eyebrow", "type": "string" },
+						{ "slug": "title", "label": "Title", "type": "string", "required": true },
+						{ "slug": "summary", "label": "Summary", "type": "text" },
+						{ "slug": "body", "label": "Body", "type": "text" }
+					]
+				}
+			]
+		},
+		{
+			"slug": "cta",
+			"label": "Call to action",
+			"description": "A focused closing message with up to two actions.",
+			"category": "Homepage",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{ "slug": "eyebrow", "label": "Eyebrow", "type": "string" },
+						{ "slug": "title", "label": "Title", "type": "string", "required": true },
+						{ "slug": "summary", "label": "Summary", "type": "text" },
+						{ "slug": "primary_label", "label": "Primary link label", "type": "string" },
+						{ "slug": "primary_url", "label": "Primary link URL", "type": "url" },
+						{ "slug": "secondary_label", "label": "Secondary link label", "type": "string" },
+						{ "slug": "secondary_url", "label": "Secondary link URL", "type": "url" }
+					]
+				}
+			]
+		}
+	],
+	"relations": [
+		{
+			"slug": "post_projects",
+			"parentCollection": "posts",
+			"childCollection": "projects",
+			"parentLabel": "Related posts",
+			"parentLabelSingular": "Related post",
+			"childLabel": "Related projects",
+			"childLabelSingular": "Related project",
+			"maxChildrenPerParent": 6,
+			"maxParentsPerChild": 6
+		}
+	],
 	"collections": [
 		{
 			"slug": "posts",
 			"label": "Posts",
 			"labelSingular": "Post",
+			"admin": { "listColumns": ["excerpt"], "quickCreate": true },
+			"sortOrder": 20,
+			"group": "Content",
+			"titleField": "title",
+			"dateField": "date",
 			"supports": [
 				"drafts",
 				"revisions",
@@ -72,6 +230,17 @@
 					"slug": "social_draft",
 					"label": "Social post draft",
 					"type": "text"
+				},
+				{
+					"slug": "related_projects",
+					"label": "Related projects",
+					"type": "reference",
+					"validation": {
+						"targetCollection": "projects",
+						"multiple": true,
+						"relation": "post_projects",
+						"relationSide": "parent"
+					}
 				}
 			]
 		},
@@ -79,6 +248,10 @@
 			"slug": "projects",
 			"label": "Projects",
 			"labelSingular": "Project",
+			"admin": { "listColumns": ["project_status", "year", "client"], "quickCreate": true },
+			"sortOrder": 30,
+			"group": "Content",
+			"titleField": "title",
 			"supports": [
 				"drafts",
 				"revisions",
@@ -218,6 +391,17 @@
 					"slug": "repo_url",
 					"label": "Repository URL",
 					"type": "url"
+				},
+				{
+					"slug": "related_posts",
+					"label": "Related posts",
+					"type": "reference",
+					"validation": {
+						"targetCollection": "posts",
+						"multiple": true,
+						"relation": "post_projects",
+						"relationSide": "child"
+					}
 				}
 			]
 		},
@@ -225,6 +409,10 @@
 			"slug": "pages",
 			"label": "Pages",
 			"labelSingular": "Page",
+			"admin": { "listColumns": [], "quickCreate": true },
+			"sortOrder": 10,
+			"group": "Content",
+			"titleField": "title",
 			"supports": [
 				"drafts",
 				"revisions",
@@ -244,6 +432,15 @@
 					"label": "Content",
 					"type": "portableText",
 					"searchable": true
+				},
+				{
+					"slug": "layout",
+					"label": "Page layout",
+					"type": "blocks",
+					"validation": {
+						"helpText": "Compose the homepage from reusable, typed sections. The legacy sections field remains available during the migration window.",
+						"allowedTypes": ["hero", "steps", "services", "projects", "posts", "rich_text", "cta"]
+					}
 				},
 				{
 					"slug": "sections",
@@ -469,6 +666,12 @@
 			"destination": "/blog",
 			"type": 301,
 			"enabled": true
+		},
+		{
+			"source": "/work",
+			"destination": "/projects",
+			"type": 301,
+			"enabled": true
 		}
 	],
 	"content": {
@@ -489,15 +692,17 @@
 								{
 									"_type": "span",
 									"_key": "home-intro-span",
-									"text": "Homepage sections are managed through the sections repeater below.",
+							"text": "Homepage sections are managed through the typed layout blocks below.",
 									"marks": []
 								}
 							]
 						}
 					],
-					"sections": [
+					"layout": [
 						{
-							"type": "hero",
+							"_type": "hero",
+							"_version": 1,
+							"_key": "home-hero",
 							"eyebrow": "Independent technology consultancy",
 							"title": "Technical architecture for calmer, faster delivery.",
 							"summary": "I help teams improve platforms, CI/CD, DevOps, performance, replatforming, CMS workflows, and end-to-end processes with practical AI where it genuinely helps.",
@@ -509,32 +714,38 @@
 							"variant": "field"
 						},
 						{
-							"type": "steps",
+							"_type": "steps",
+							"_version": 1,
+							"_key": "home-steps",
 							"eyebrow": "Simple steps",
 							"title": "A calm way through technical work",
 							"items": "Understand | We agree what matters, what is stuck, and what a useful outcome looks like.\nSimplify | We reduce the moving parts, fix the riskiest path first, and keep decisions visible.\nHand over | You get a working system, clear notes, and a calmer way to run it next time."
 						},
 						{
-							"type": "services",
+							"_type": "services",
+							"_version": 1,
+							"_key": "home-services",
 							"title": "What I help with",
 							"primary_label": "View services",
 							"primary_url": "/services",
 							"items": "Technical architecture and direction | CTO-style support for platform choices, delivery planning, vendor decisions, and readable technical strategy. | /services/technical-architecture\nCI/CD, DevOps and reliability | CI/CD, observability, deployments, server configuration, automation, and infrastructure made boring enough to trust. | /services/devops-ci-cd\nPerformance and cost optimisation | Performance optimisation, cloud cost control, caching strategy, and faster delivery paths close to users. | /services/performance-cost-optimisation\nReplatforming and modernisation | CMS migrations, platform moves, hosting changes, and modernisation with fewer moving parts. | /services/replatforming-modernisation\nAI process improvement | End-to-end workflow improvement and practical AI integration that supports teams rather than threatening jobs. | /services/ai-process-improvement\nWeb platforms and CMS publishing | Fast sites, practical editing flows, content models, and publishing tools that are pleasant to use. | /services/web-platforms-cms"
 						},
 						{
-							"type": "projects",
+							"_type": "projects",
+							"_version": 1,
+							"_key": "home-projects",
 							"title": "Projects",
 							"primary_label": "View all",
 							"primary_url": "/projects",
-							"source": "projects",
 							"limit": 4
 						},
 						{
-							"type": "posts",
+							"_type": "posts",
+							"_version": 1,
+							"_key": "home-posts",
 							"title": "Recent writing",
 							"primary_label": "Read the blog",
 							"primary_url": "/blog",
-							"source": "posts",
 							"limit": 4
 						}
 					]
@@ -1116,7 +1327,7 @@
 				"status": "published",
 				"data": {
 					"title": "502 IPFS Error Deploying Subgraphs to The Graph",
-					"excerpt": "The IPFS endpoint on The Graph can be flakey at times, this script will help you deploy once and walk away.",
+					"excerpt": "The IPFS endpoint on The Graph can be flaky at times, this script will help you deploy once and walk away.",
 					"date": "2025-05-07",
 					"tweet_url": "",
 					"social_draft": "",
@@ -1236,7 +1447,7 @@
 								{
 									"_type": "span",
 									"_key": "kv",
-									"text": "The IPFS server within the Graph network is flakey at best.",
+									"text": "The IPFS server within the Graph network is flaky at best.",
 									"marks": []
 								}
 							]
@@ -1685,8 +1896,8 @@
 				"slug": "find-code-in-github-using-grep",
 				"status": "published",
 				"data": {
-					"title": "Find code in github using Grep",
-					"excerpt": "Grep is a took that has been built by the team over at Vercel (thanks for the free hosting) and is designed to let you find code snippets in public github repositories FAST.",
+					"title": "Find code in GitHub using Grep",
+					"excerpt": "Grep is a tool that has been built by the team over at Vercel (thanks for the free hosting) and is designed to let you find code snippets in public GitHub repositories FAST.",
 					"date": "2024-12-05",
 					"tweet_url": "",
 					"social_draft": "",
@@ -1702,7 +1913,7 @@
 								{
 									"_type": "span",
 									"_key": "k2g",
-									"text": "Grep is a took that has been built by the team over at Vercel (thanks for the free hosting) and is designed to let you find code snippets in public github repositories FAST.",
+									"text": "Grep is a tool that has been built by the team over at Vercel (thanks for the free hosting) and is designed to let you find code snippets in public GitHub repositories FAST.",
 									"marks": []
 								}
 							]
@@ -1752,7 +1963,7 @@
 								{
 									"_type": "span",
 									"_key": "k2n",
-									"text": "Aside from just finding things you're looking for you might want to get some insights into the types of things...",
+									"text": "Aside from finding what you're looking for, you might also want insight into how code is used across public projects.",
 									"marks": []
 								}
 							]
@@ -1776,7 +1987,7 @@
 								{
 									"_type": "span",
 									"_key": "k2q",
-									"text": " — copy and past the dependency from your project ans see how/where other users are using the same thing",
+									"text": " — copy and paste the dependency from your project and see how other developers are using it",
 									"marks": []
 								}
 							]
@@ -1800,7 +2011,7 @@
 								{
 									"_type": "span",
 									"_key": "k2t",
-									"text": " — as an ethical hacker you might want to find all the instances where public repositories are over sharing api keys and give them a nudge",
+									"text": " — as an ethical hacker, you might look for public repositories that are oversharing API keys and give their maintainers a nudge",
 									"marks": []
 								}
 							]
@@ -1876,7 +2087,7 @@
 								{
 									"_type": "span",
 									"_key": "k33",
-									"text": "and the search itslef has regular expressions, an option to match case and to match whole words.",
+									"text": "The search itself supports regular expressions, case matching, and whole-word matching.",
 									"marks": []
 								}
 							]

@@ -34,8 +34,6 @@ const staticPageEntries: SitemapEntry[] = [
 const sitemapRoutes = new Set([
 	"/sitemap.xml",
 	"/sitemap-pages.xml",
-	"/sitemap-posts.xml",
-	"/sitemap-projects.xml",
 ]);
 
 export function isSitemapPath(pathname: string) {
@@ -51,14 +49,6 @@ export async function handleSitemapGet(request: Request, env: SitemapEnv) {
 
 	if (pathname === "/sitemap-pages.xml") {
 		return urlset(staticPageEntries);
-	}
-
-	if (pathname === "/sitemap-posts.xml") {
-		return contentUrlset(env, "posts", "/posts");
-	}
-
-	if (pathname === "/sitemap-projects.xml") {
-		return contentUrlset(env, "projects", "/projects");
 	}
 
 	return new Response("Not found", { status: 404 });
@@ -88,37 +78,6 @@ async function sitemapIndex(env: SitemapEnv) {
 	];
 
 	return new Response(lines.join("\n"), { headers: XML_HEADERS });
-}
-
-async function contentUrlset(env: SitemapEnv, collection: "posts" | "projects", prefix: string) {
-	if (!env.DB) {
-		return new Response("<!-- Database not configured -->", {
-			status: 500,
-			headers: XML_HEADERS,
-		});
-	}
-
-	const table = collection === "posts" ? "ec_posts" : "ec_projects";
-	const { results } = await env.DB.prepare(`
-		SELECT c.id, c.slug, c.updated_at
-		FROM ${table} c
-		LEFT JOIN _emdash_seo s
-			ON s.collection = ?
-			AND s.content_id = c.id
-		WHERE c.status = 'published'
-			AND c.deleted_at IS NULL
-			AND (s.seo_no_index IS NULL OR s.seo_no_index = 0)
-		ORDER BY c.updated_at DESC
-	`)
-		.bind(collection)
-		.all<{ id: string; slug: string | null; updated_at: string }>();
-
-	return urlset(
-		(results || []).map((row) => ({
-			loc: `${prefix}/${encodeURIComponent(row.slug || row.id)}`,
-			lastmod: row.updated_at,
-		})),
-	);
 }
 
 async function collectionLastmod(env: SitemapEnv, collection: "posts" | "projects") {

@@ -123,7 +123,7 @@ export function normaliseHomeSections(value: unknown): HomeSection[] {
 		.map((section): HomeSection | null => {
 			if (!section || typeof section !== "object" || Array.isArray(section)) return null;
 			const record = section as Record<string, unknown>;
-			const type = textValue(record.type) as HomeSectionKind;
+			const type = textValue(record._type || record.type) as HomeSectionKind;
 			if (!sectionTypes.has(type)) return null;
 
 			const normalised: HomeSection = {

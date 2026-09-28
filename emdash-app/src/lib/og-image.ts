@@ -1,4 +1,6 @@
-import { ImageResponse } from "workers-og";
+import { ImageResponse, loadGoogleFont } from "workers-og";
+
+import brandMarkSvg from "../../public/images/brand/simple-things/logo/logo-light.svg?raw";
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -13,12 +15,17 @@ type OgImageInput = {
 
 type OgStyle = Record<string, string | number>;
 type OgElement = {
-	type: "div";
+	type: "div" | "img";
 	props: {
-		style: OgStyle;
+		style?: OgStyle;
+		src?: string;
+		width?: number;
+		height?: number;
 		children?: Array<OgElement | string>;
 	};
 };
+
+const BRAND_MARK_DATA_URI = `data:image/svg+xml,${encodeURIComponent(brandMarkSvg)}`;
 
 function clamp(value: string, maxLength: number): string {
 	const normalised = value.replace(/\s+/g, " ").trim();
@@ -56,6 +63,13 @@ function box(style: OgStyle, children?: Array<OgElement | string | false | undef
 	};
 }
 
+function imageElement(src: string, width: number, height: number, style?: OgStyle): OgElement {
+	return {
+		type: "img",
+		props: { src, width, height, style },
+	};
+}
+
 export async function createOgImageResponse(input: OgImageInput): Promise<Response> {
 	const title = clamp(input.title || "Simple Things Limited", 96);
 	const description = fitDescription(input.description || "", 124);
@@ -70,7 +84,7 @@ export async function createOgImageResponse(input: OgImageInput): Promise<Respon
 			display: "flex",
 			background: "#fbfbfa",
 			color: "#171412",
-			fontFamily: "Bitter, Arial, sans-serif",
+			fontFamily: "Inter, Arial, sans-serif",
 			borderTop: "10px solid #171412",
 		},
 		[
@@ -93,58 +107,7 @@ export async function createOgImageResponse(input: OgImageInput): Promise<Respon
 						},
 						[
 							box({ display: "flex", alignItems: "center" }, [
-								box(
-									{
-										width: 48,
-										height: 48,
-										background: "#fbfbfa",
-										border: "2px solid #171412",
-										borderRadius: 10,
-										display: "flex",
-										marginRight: 14,
-										overflow: "hidden",
-										position: "relative",
-									},
-									[
-										box({
-											position: "absolute",
-											left: 11,
-											top: 14,
-											width: 26,
-											height: 24,
-											border: "3px solid #171412",
-											borderBottom: "0",
-											borderRadius: "999px 999px 0 0",
-										}),
-										box({
-											position: "absolute",
-											left: 8,
-											right: 8,
-											top: 29,
-											height: 4,
-											background: "#e6332a",
-											borderRadius: 999,
-										}),
-										box({
-											position: "absolute",
-											left: 9,
-											top: 27,
-											width: 7,
-											height: 7,
-											background: "#e6332a",
-											borderRadius: 999,
-										}),
-										box({
-											position: "absolute",
-											right: 9,
-											top: 27,
-											width: 7,
-											height: 7,
-											background: "#e6332a",
-											borderRadius: 999,
-										}),
-									],
-								),
+								imageElement(BRAND_MARK_DATA_URI, 54, 54, { marginRight: 16 }),
 								box(
 									{
 										display: "flex",
@@ -265,10 +228,19 @@ export async function createOgImageResponse(input: OgImageInput): Promise<Respon
 		],
 	);
 
+	const [interRegular, interSemibold] = await Promise.all([
+		loadGoogleFont({ family: "Inter", weight: 400 }),
+		loadGoogleFont({ family: "Inter", weight: 600 }),
+	]);
+
 	const image = new ImageResponse(element as never, {
 		width: WIDTH,
 		height: HEIGHT,
 		format: "png",
+		fonts: [
+			{ name: "Inter", data: interRegular, weight: 400, style: "normal" },
+			{ name: "Inter", data: interSemibold, weight: 600, style: "normal" },
+		],
 		headers: {
 			"Cache-Control": CACHE_CONTROL,
 			"X-Content-Type-Options": "nosniff",

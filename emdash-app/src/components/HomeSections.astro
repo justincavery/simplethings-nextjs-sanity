@@ -20,6 +20,7 @@ export interface Props {
 	projects?: EntryLike[];
 	posts?: EntryLike[];
 	showFieldDesign?: boolean;
+	editField?: "layout" | "sections";
 	edit?: Record<string, any>;
 }
 
@@ -28,6 +29,7 @@ const {
 	projects = [],
 	posts = [],
 	showFieldDesign = false,
+	editField = "sections",
 	edit,
 } = Astro.props;
 
@@ -69,7 +71,7 @@ function serviceItemUrl(item: { title: string; url?: string }) {
 }
 ---
 
-<div class="home-sections" {...edit?.sections}>
+<div class="home-sections" {...edit?.[editField]}>
 	{renderedSections.map((section) => (
 		<>
 			{section.type === "hero" && (

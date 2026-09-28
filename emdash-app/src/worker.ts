@@ -1,6 +1,9 @@
 import handler from "@astrojs/cloudflare/entrypoints/server";
+import { createScheduledHandler } from "@emdash-cms/cloudflare/worker";
 import { handleContactPost } from "./contact-handler";
 import { handleSitemapGet, isSitemapPath } from "./sitemap-handler";
+
+export { PluginBridge } from "@emdash-cms/cloudflare/worker";
 
 const permanentRedirects = new Map([
 	["/posts", "/blog"],
@@ -36,4 +39,5 @@ export default {
 
 		return handler.fetch(request, env, ctx);
 	},
+	scheduled: createScheduledHandler(),
 };

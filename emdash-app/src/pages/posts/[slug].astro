@@ -16,7 +16,9 @@ import Base from "../../layouts/Base.astro";
 const slug = decodeSlug(Astro.params.slug);
 if (!slug) return Astro.redirect("/404");
 
-const { entry: post, cacheHint } = await getEmDashEntry("posts", slug);
+const { entry: post, cacheHint } = await getEmDashEntry("posts", slug, {
+	references: { related_projects: { limit: 6 } },
+});
 if (!post) return Astro.redirect("/404");
 
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
@@ -33,22 +35,47 @@ const seoDescription = entrySeoDescription(
 const generatedOgImage = ogImageFor(Astro.url, undefined, `/og/posts/${encodeURIComponent(post.id)}.png`);
 const seoImage = entrySeoImage(seo, generatedOgImage);
 const canonical = entrySeoCanonical(seo) || `/posts/${post.id}`;
+const bylines = Array.isArray(data.bylines) ? data.bylines : [];
+const tags = Array.isArray(data.terms?.tag) ? data.terms.tag : [];
+const relatedProjects = post.references?.related_projects?.entries ?? [];
 ---
 
 <Base title={seoTitle} description={seoDescription} image={seoImage} canonical={canonical} type="article">
 	<article class="post post-detail">
 		<header>
 			<a href="/blog" class="back">Blog</a>
-			<p>
+			<p class="post-meta">
 				<time datetime={dateTimeAttribute(data.date)}>{formatDisplayDate(data.date)}</time>
+				{bylines.length > 0 && (
+					<span> by {bylines.map((credit: any) => credit.byline?.displayName).filter(Boolean).join(", ")}</span>
+				)}
 			</p>
 			<h1 {...post.edit.title}>{data.title}</h1>
 			{data.excerpt && <p class="excerpt" {...post.edit.excerpt}>{data.excerpt}</p>}
+			{tags.length > 0 && (
+				<ul class="tags" aria-label="Topics">
+					{tags.map((tag: any) => <li>{tag.label}</li>)}
+				</ul>
+			)}
 		</header>
 		{data.featured_image && <div class="image" {...post.edit.featured_image}><Image image={data.featured_image} /></div>}
 		<div class="content" {...post.edit.content}>
 			<ContentRenderer value={data.content} />
 		</div>
+		{relatedProjects.length > 0 && (
+			<section class="related-content" aria-labelledby="related-projects-heading">
+				<p class="eyebrow">Related work</p>
+				<h2 id="related-projects-heading">Projects connected to this article</h2>
+				<div class="related-grid">
+					{relatedProjects.map((project) => (
+						<a href={`/projects/${project.id}`}>
+							<strong>{project.data.title}</strong>
+							{project.data.summary && <span>{project.data.summary}</span>}
+						</a>
+					))}
+				</div>
+			</section>
+		)}
 		<section class="post-cta">
 			<p class="eyebrow">Need help with something similar?</p>
 			<h2>Turn the rough edge into a simpler system.</h2>
@@ -69,7 +96,7 @@ const canonical = entrySeoCanonical(seo) || `/posts/${post.id}`;
 	}
 
 	.back,
-	header p {
+	.post-meta {
 		color: var(--color-muted);
 		font-size: var(--font-size-sm);
 	}
@@ -88,6 +115,22 @@ const canonical = entrySeoCanonical(seo) || `/posts/${post.id}`;
 		color: var(--color-muted);
 		font-size: var(--font-size-lg);
 		line-height: 1.65;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-sm);
+		list-style: none;
+		margin-top: var(--spacing-lg);
+	}
+
+	.tags li {
+		border: 1px solid var(--color-border);
+		border-radius: 999px;
+		color: var(--color-muted);
+		font-size: var(--font-size-sm);
+		padding: 0.2rem 0.65rem;
 	}
 
 	.image img {
@@ -124,6 +167,35 @@ const canonical = entrySeoCanonical(seo) || `/posts/${post.id}`;
 		border-top: 2px solid var(--color-text);
 		margin-top: var(--spacing-3xl);
 		padding-top: var(--spacing-xl);
+	}
+
+	.related-content {
+		border-top: 1px solid var(--color-border);
+		margin-top: var(--spacing-3xl);
+		padding-top: var(--spacing-xl);
+	}
+
+	.related-content h2 {
+		font-size: var(--font-size-2xl);
+		margin-bottom: var(--spacing-lg);
+	}
+
+	.related-grid {
+		display: grid;
+		gap: var(--spacing-md);
+	}
+
+	.related-grid a {
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		display: grid;
+		gap: var(--spacing-xs);
+		padding: var(--spacing-lg);
+		text-decoration: none;
+	}
+
+	.related-grid span {
+		color: var(--color-muted);
 	}
 
 	.post-cta .eyebrow {
